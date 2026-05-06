@@ -1813,3 +1813,253 @@ html, body{
   overscroll-behavior-x:none;
   overflow-x:hidden;
 }
+
+/* === v74: Cinematic opening movie ===
+   Dark cinematic stage with letterbox, film grain, mask reveal and
+   editorial frame with corner brackets. Replaces v57/v58 surface look,
+   while preserving DOM structure and timing hooks. */
+
+/* Stage — deep navy cinematic background */
+#opener.opener{
+  background:#05071a;
+  color:#fff;
+  -webkit-tap-highlight-color:transparent;
+}
+#opener .opener-act{
+  background:transparent;
+}
+
+/* Soft brand-tone radial vignette */
+.o-vignette{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(36,55,200,0.30) 0%, rgba(5,7,26,0) 55%),
+    radial-gradient(ellipse at 50% 110%, rgba(36,55,200,0.22) 0%, rgba(5,7,26,0) 60%),
+    linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 60%);
+  animation:oVignette 5.6s ease-in-out infinite alternate;
+}
+@keyframes oVignette{from{opacity:.78}to{opacity:1}}
+
+/* Film grain overlay (SVG fractal noise) */
+.o-grain{
+  position:absolute; inset:-6%;
+  z-index:6; pointer-events:none;
+  opacity:.16;
+  mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.65 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation:oGrain .9s steps(5) infinite;
+  will-change:transform;
+}
+@keyframes oGrain{
+  0%{transform:translate(0,0)}
+  20%{transform:translate(-2%,1%)}
+  40%{transform:translate(2%,-2%)}
+  60%{transform:translate(-1%,2%)}
+  80%{transform:translate(1%,-1%)}
+  100%{transform:translate(0,0)}
+}
+
+/* Letterbox bars (top + bottom) */
+.o-bar{
+  position:absolute; left:0; right:0;
+  background:#000;
+  z-index:7; height:0;
+}
+.o-bar-top{top:0; animation:oBarT .9s .05s cubic-bezier(.7,0,.2,1) forwards}
+.o-bar-bot{bottom:0; animation:oBarB .9s .05s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes oBarT{from{height:0}to{height:6vh}}
+@keyframes oBarB{from{height:0}to{height:6vh}}
+
+/* Vertical scan light traveling once */
+.o-scan{
+  position:absolute; top:0; bottom:0; left:-15%;
+  width:18%; z-index:4; pointer-events:none;
+  background:linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(164,179,255,.10) 35%, rgba(255,255,255,.18) 50%, rgba(164,179,255,.10) 65%, rgba(255,255,255,0) 100%);
+  filter:blur(2px);
+  animation:oScan 3.4s 1.0s ease-in-out forwards;
+  opacity:0;
+}
+@keyframes oScan{
+  0%{transform:translateX(0); opacity:0}
+  10%{opacity:.9}
+  85%{opacity:.6}
+  100%{transform:translateX(700%); opacity:0}
+}
+
+/* === ACT 1 — brand title card on dark BG === */
+#opener .act-1{z-index:2}
+.o-stage{
+  position:relative;
+  display:flex; flex-direction:column; align-items:center; gap:22px;
+  padding:0 24px;
+}
+.o-mark-row{
+  display:flex; align-items:center; gap:18px;
+  font-family:"Inter",sans-serif;
+  font-size:10px; letter-spacing:.5em; font-weight:500;
+  color:rgba(255,255,255,.55);
+  text-transform:uppercase;
+  opacity:0;
+  animation:oFadeUp .9s .15s ease forwards;
+}
+.o-mark-line{
+  display:block; width:0; height:1px;
+  background:linear-gradient(to right, transparent, rgba(255,255,255,.55), transparent);
+  animation:oLineExpand 1.2s .15s cubic-bezier(.7,0,.2,1) forwards;
+}
+@keyframes oLineExpand{to{width:120px}}
+.o-mark-tag{display:inline-block}
+
+.o-mark-wrap{
+  display:block; overflow:hidden;
+  padding:0 .08em .12em;
+}
+
+/* Override v58 .o-mark style — refine for dark BG, mask reveal */
+.o-mark{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:clamp(56px, 13vw, 200px);
+  letter-spacing:-0.005em;
+  line-height:1;
+  color:#fff;
+  display:inline-block;
+  background:linear-gradient(110deg, #ffffff 0%, #c9d3ff 30%, #ffffff 55%, #a4b3ff 80%, #ffffff 100%);
+  background-size:200% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:oMarkSheen 6s 1.4s linear infinite;
+}
+.o-mark .o-mark-inner{
+  display:inline-block;
+  transform:translateY(108%);
+  animation:oMaskUp 1.15s .35s cubic-bezier(.7,0,.2,1) forwards;
+}
+@keyframes oMaskUp{to{transform:translateY(0)}}
+@keyframes oMarkSheen{
+  0%{background-position:0% 50%}
+  100%{background-position:200% 50%}
+}
+
+.o-mark-sub{
+  display:flex; align-items:center; gap:14px;
+  font-family:"Inter",sans-serif;
+  font-size:11px; letter-spacing:.42em; font-weight:400;
+  color:rgba(255,255,255,.6);
+  text-transform:uppercase;
+  opacity:0;
+  animation:oFadeUp .9s 1.0s ease forwards;
+}
+.o-mark-sub .o-dot{
+  width:3px; height:3px; border-radius:50%;
+  background:rgba(255,255,255,.4);
+}
+
+@keyframes oFadeUp{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:none}
+}
+
+/* === ACT 2 — editorial frame, dark surface === */
+#opener .act-2{z-index:1}
+.o-frame{
+  border-color:rgba(255,255,255,.16);
+  position:relative;
+}
+/* Corner accent brackets */
+.o-corner{
+  position:absolute; width:18px; height:18px;
+  border:1px solid rgba(255,255,255,.7);
+  opacity:0;
+  animation:oCornerIn .6s 1.7s ease forwards;
+}
+.o-corner.tl{top:-1px; left:-1px; border-right:0; border-bottom:0}
+.o-corner.tr{top:-1px; right:-1px; border-left:0; border-bottom:0}
+.o-corner.bl{bottom:-1px; left:-1px; border-right:0; border-top:0}
+.o-corner.br{bottom:-1px; right:-1px; border-left:0; border-top:0}
+@keyframes oCornerIn{
+  from{opacity:0; transform:scale(.7)}
+  to{opacity:1; transform:none}
+}
+
+/* Color pass for text on dark BG */
+.o-top{color:rgba(255,255,255,.85)}
+.o-loc{color:rgba(255,255,255,.5)}
+.o-state{color:rgba(255,255,255,.55)}
+.o-title{color:#fff !important}
+.o-title em{color:#a4b3ff !important}
+.o-sub{color:rgba(255,255,255,.62) !important}
+.o-pct{color:#fff !important}
+.o-rule{background:rgba(255,255,255,.18)}
+.o-rule-fill{background:linear-gradient(to right, #a4b3ff, #ffffff) !important}
+
+/* Split-line title mask reveal — replaces fade-up animation in v58 */
+.o-title{display:block}
+.o-line{
+  display:block;
+  overflow:hidden;
+  line-height:1.06;
+  padding:0 .04em .14em;
+}
+.o-line-inner{
+  display:inline-block;
+  transform:translateY(110%);
+  opacity:.001;
+  will-change:transform;
+}
+#opener.a2 .o-line:nth-of-type(1) .o-line-inner{
+  animation:oMaskUp2 1.05s .55s cubic-bezier(.7,0,.2,1) forwards;
+}
+#opener.a2 .o-line:nth-of-type(2) .o-line-inner{
+  animation:oMaskUp2 1.05s .82s cubic-bezier(.7,0,.2,1) forwards;
+}
+@keyframes oMaskUp2{
+  0%{transform:translateY(110%); opacity:0}
+  60%{opacity:1}
+  100%{transform:translateY(0); opacity:1}
+}
+
+/* Disable v58's whole-block fade so split lines drive reveal */
+#opener.a2 .o-title{
+  animation:none !important;
+  opacity:1 !important;
+  transform:none !important;
+}
+
+/* Closing shutter — top + bottom split close on .done */
+.o-shutter{
+  position:absolute; left:0; right:0;
+  background:#000; z-index:9; pointer-events:none;
+  height:0;
+  transition:height .9s cubic-bezier(.7,0,.2,1);
+}
+.o-shutter-t{top:0}
+.o-shutter-b{bottom:0}
+#opener.done .o-shutter{height:50vh}
+#opener.done{transition:opacity .8s ease .55s, visibility 0s 1.35s}
+#opener.done .o-grain,
+#opener.done .o-scan,
+#opener.done .o-vignette{opacity:0; transition:opacity .4s ease}
+
+/* Reduced motion fallback */
+@media (prefers-reduced-motion:reduce){
+  .o-grain,.o-scan,.o-vignette,.o-bar-top,.o-bar-bot,
+  .o-mark .o-mark-inner,.o-line-inner,.o-mark-row,.o-mark-sub,.o-corner{
+    animation:none !important;
+    opacity:1 !important;
+    transform:none !important;
+  }
+  .o-bar{height:0 !important}
+}
+
+/* Mobile tuning — keep frame readable, soften bars */
+@media (max-width:700px){
+  .o-bar-top,.o-bar-bot{animation:oBarMobile .8s .05s cubic-bezier(.7,0,.2,1) forwards}
+  @keyframes oBarMobile{from{height:0}to{height:4vh}}
+  .o-mark{font-size:clamp(48px, 18vw, 130px)}
+  .o-mark-sub{gap:10px; font-size:9px; letter-spacing:.3em}
+  .o-mark-row{font-size:9px; letter-spacing:.36em; gap:12px}
+  @keyframes oLineExpand{to{width:60px}}
+}
