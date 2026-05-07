@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Human silhouette">
+  <defs>
+    <linearGradient id="advoSilBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#131e7a"/>
+      <stop offset="1" stop-color="#070a1f"/>
+    </linearGradient>
+    <linearGradient id="advoSilFig" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a4abf" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#2437c8" stop-opacity="0.65"/>
+    </linearGradient>
+    <radialGradient id="advoSilGlow" cx="50%" cy="42%" r="55%">
+      <stop offset="0" stop-color="#5b6dff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#070a1f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#advoSilBg)"/>
+  <rect width="600" height="800" fill="url(#advoSilGlow)"/>
+  <g fill="url(#advoSilFig)">
+    <path d="M300 158
+             c-66 0 -118 52 -118 118
+             c0 50 28 92 68 112
+             v34
+             c-82 12 -136 60 -168 128
+             c-22 48 -32 98 -32 152
+             h500
+             c0 -54 -10 -104 -32 -152
+             c-32 -68 -86 -116 -168 -128
+             v-34
+             c40 -20 68 -62 68 -112
+             c0 -66 -52 -118 -118 -118
+             z"/>
+  </g>
+  <g stroke="rgba(255,255,255,0.06)" stroke-width="1" fill="none">
+    <line x1="0" y1="540" x2="600" y2="540"/>
+  </g>
+</svg>
