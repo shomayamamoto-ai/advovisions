@@ -2063,3 +2063,24 @@ html, body{
   .o-mark-row{font-size:9px; letter-spacing:.36em; gap:12px}
   @keyframes oLineExpand{to{width:60px}}
 }
+
+/* === v75: Hero video — suppress Safari/Chrome native play overlay === */
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-overlay-play-button,
+.hero-video::-webkit-media-controls-start-playback-button,
+.hero-video::-webkit-media-controls-play-button,
+.hero-video::-webkit-media-controls-enclosure{
+  display:none !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+.hero-video{
+  pointer-events:none !important;
+  -webkit-touch-callout:none;
+}
+
+/* Drop the legacy JS-injected duplicate scroll cue — .hero-cue (HTML) is canonical */
+.scroll-cue{display:none !important}
