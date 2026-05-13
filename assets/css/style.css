@@ -2084,3 +2084,31 @@ html, body{
 
 /* Drop the legacy JS-injected duplicate scroll cue — .hero-cue (HTML) is canonical */
 .scroll-cue{display:none !important}
+
+/* === v76: Stronger hero-video native-overlay suppression for Safari macOS === */
+.hero-video::-internal-media-controls-overlay-cast-button,
+.hero-video::-webkit-media-controls-overlay-enclosure,
+.hero-video::-webkit-media-controls-overlay-play-button,
+.hero-video::-webkit-media-controls-start-playback-button,
+.hero-video::-webkit-media-controls-start-playback-glyph,
+.hero-video::-webkit-media-controls-play-button,
+.hero-video::-webkit-media-controls-overlay-play-button-internal,
+.hero-video::-webkit-media-controls,
+.hero-video::-webkit-media-controls-panel,
+.hero-video::-webkit-media-controls-panel-container,
+.hero-video::-webkit-media-controls-enclosure,
+.hero-video::-webkit-media-controls-volume-slider,
+.hero-video::-webkit-media-controls-mute-button,
+.hero-video::-webkit-media-controls-timeline,
+.hero-video::-webkit-media-controls-current-time-display,
+.hero-video::-webkit-media-controls-time-remaining-display,
+.hero-video::-webkit-media-controls-fullscreen-button{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  width:0 !important;
+  height:0 !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+  pointer-events:none !important;
+}
