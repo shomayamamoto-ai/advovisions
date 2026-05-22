@@ -2112,3 +2112,167 @@ html, body{
   appearance:none !important;
   pointer-events:none !important;
 }
+
+/* === v77: Hero — gaze-flow / benefit / proof-stats / strong CTA ===
+   Editorial improvement based on the SUMMER-SALE diagnostic feedback:
+   1) Direct the eye top -> bottom (eyebrow → catch → benefit → proof → CTA)
+   2) Strengthen sub-copy with concrete numeric benefits
+   3) Group key proof points into a single stat strip
+   4) Promote primary CTA with accent fill + microcopy
+   5) Deepen the dark overlay so text/CTA stand out over the video. */
+
+section.hero::after{
+  background:linear-gradient(180deg, rgba(8,12,40,0.74) 0%, rgba(15,20,48,0.62) 45%, rgba(19,30,122,0.78) 100%) !important;
+}
+
+.hero-content{
+  display:flex; flex-direction:column; align-items:center;
+  max-width:880px; margin:0 auto;
+}
+
+.hero-eyebrow{
+  display:inline-flex; align-items:center;
+  font-family:"Inter",sans-serif;
+  font-size:10px; letter-spacing:.5em; font-weight:500;
+  color:rgba(255,255,255,.85);
+  text-transform:uppercase;
+  padding:9px 18px 9px 20px;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:999px;
+  margin-bottom:24px;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  background:rgba(255,255,255,.04);
+  opacity:0;
+  animation:heroEyebrowIn .9s 1.6s cubic-bezier(.7,0,.2,1) forwards;
+}
+@keyframes heroEyebrowIn{
+  from{opacity:0; transform:translateY(-6px)}
+  to{opacity:1; transform:none}
+}
+
+.hero-sub strong{
+  font-weight:700;
+  color:#ffffff;
+  font-style:normal;
+  background:linear-gradient(transparent 65%, rgba(255,210,77,.32) 65%);
+  padding:0 2px;
+}
+
+.hero-proof{
+  list-style:none; padding:0;
+  margin:36px 0 40px;
+  display:flex; justify-content:center;
+  gap:48px;
+  font-family:"Inter",sans-serif;
+  opacity:0;
+  animation:heroProofIn 1s 1.9s cubic-bezier(.7,0,.2,1) forwards;
+}
+@keyframes heroProofIn{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1; transform:none}
+}
+.hero-proof li{
+  display:flex; flex-direction:column; align-items:center;
+  position:relative;
+  padding:0 8px;
+}
+.hero-proof li:not(:last-child)::after{
+  content:""; position:absolute;
+  right:-24px; top:14px; bottom:14px;
+  width:1px;
+  background:linear-gradient(180deg, transparent, rgba(255,255,255,.3), transparent);
+}
+.hero-proof strong{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif;
+  font-style:italic; font-weight:500;
+  font-size:clamp(36px, 5.5vw, 60px);
+  line-height:1;
+  color:#fff;
+  letter-spacing:-.01em;
+}
+.hero-proof strong sup{
+  font-size:.45em; top:-.55em;
+  margin-left:2px;
+  color:#ffd24d;
+  font-style:normal;
+}
+.hero-proof span{
+  font-size:10px;
+  letter-spacing:.36em;
+  color:rgba(255,255,255,.72);
+  text-transform:uppercase;
+  margin-top:8px;
+  font-weight:500;
+}
+
+/* Reorder gaze: ctas come last with a strong primary */
+.hero-ctas{
+  margin-top:8px !important;
+  align-items:center;
+  gap:18px !important;
+}
+.hero-cta-main{
+  background:#ffd24d !important;
+  color:#0f1430 !important;
+  border:1px solid #ffd24d !important;
+  padding:18px 32px 12px !important;
+  font-size:15px !important;
+  letter-spacing:0.08em !important;
+  font-weight:700 !important;
+  min-width:260px;
+  box-shadow:0 20px 50px -12px rgba(255,210,77,.55), 0 4px 14px rgba(15,20,48,.25);
+  border-radius:8px !important;
+  display:inline-flex !important; flex-direction:column; align-items:center; gap:3px;
+  position:relative;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .25s ease;
+}
+.hero-cta-main:hover{
+  background:#ffdf78 !important;
+  color:#0f1430 !important;
+  transform:translateY(-3px);
+  box-shadow:0 28px 60px -10px rgba(255,210,77,.65), 0 6px 18px rgba(15,20,48,.3);
+}
+.hero-cta-main .hero-cta-label{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:15px; font-weight:700;
+}
+.hero-cta-main .hero-cta-arrow{
+  display:inline-block;
+  transition:transform .35s var(--ease);
+}
+.hero-cta-main:hover .hero-cta-arrow{transform:translateX(4px)}
+.hero-cta-main .hero-cta-note{
+  font-family:"Noto Sans JP",sans-serif;
+  font-size:11px;
+  letter-spacing:.06em;
+  font-weight:500;
+  color:rgba(15,20,48,.72);
+  display:block;
+}
+
+/* Secondary CTA — keep ghost but tighten contrast */
+.hero-cta-outline{
+  background:rgba(255,255,255,0.04) !important;
+  border-color:rgba(255,255,255,0.55) !important;
+  color:#fff !important;
+  padding:14px 26px !important;
+  border-radius:8px !important;
+  font-weight:500 !important;
+  letter-spacing:0.08em !important;
+}
+.hero-cta-outline:hover{
+  background:rgba(255,255,255,0.12) !important;
+  border-color:#fff !important;
+}
+
+/* Mobile: stack neatly, keep proof readable, prevent CTA squish */
+@media (max-width:700px){
+  .hero-eyebrow{font-size:9px; letter-spacing:.36em; padding:7px 14px 7px 16px}
+  .hero-proof{gap:24px; margin:28px 0 32px}
+  .hero-proof li:not(:last-child)::after{right:-12px; top:10px; bottom:10px}
+  .hero-proof strong{font-size:clamp(32px, 9vw, 44px)}
+  .hero-proof span{font-size:9px; letter-spacing:.24em; margin-top:6px}
+  .hero-ctas{flex-direction:column; width:100%;}
+  .hero-cta-main, .hero-cta-outline{width:min(100%, 360px); min-width:0}
+}
