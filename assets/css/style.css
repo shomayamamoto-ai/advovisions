@@ -2276,3 +2276,96 @@ section.hero::after{
   .hero-ctas{flex-direction:column; width:100%;}
   .hero-cta-main, .hero-cta-outline{width:min(100%, 360px); min-width:0}
 }
+
+/* === v79: Hamburger navigation on ALL breakpoints (desktop included) === */
+.nav-toggle{display:flex !important; z-index:101}
+.site-header .nav{
+  position:fixed !important; top:0 !important; right:0 !important; bottom:0 !important; left:auto !important;
+  width:min(86vw,380px) !important; max-width:380px !important;
+  background:rgba(255,255,255,.98) !important;
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  padding:108px 44px 44px !important;
+  transform:translateX(100%) !important;
+  transition:transform .55s cubic-bezier(.77,0,.18,1) !important;
+  box-shadow:-24px 0 70px rgba(19,30,122,.22) !important;
+  display:block !important;
+  z-index:90 !important;
+  overflow-y:auto !important;
+}
+.site-header .nav.open{transform:translateX(0) !important}
+.site-header .nav ul{
+  flex-direction:column !important; align-items:flex-start !important;
+  gap:2px !important; font-size:20px !important; width:100%;
+}
+.site-header .nav ul li{
+  width:100%; opacity:0; transform:translateX(22px);
+  transition:opacity .5s var(--ease), transform .5s var(--ease);
+}
+.site-header .nav.open ul li{opacity:1; transform:translateX(0)}
+.site-header .nav.open ul li:nth-child(1){transition-delay:.10s}
+.site-header .nav.open ul li:nth-child(2){transition-delay:.17s}
+.site-header .nav.open ul li:nth-child(3){transition-delay:.24s}
+.site-header .nav.open ul li:nth-child(4){transition-delay:.31s}
+.site-header .nav.open ul li:nth-child(5){transition-delay:.38s}
+.site-header .nav.open ul li:nth-child(6){transition-delay:.45s}
+.site-header .nav ul li a{
+  display:block !important; width:100%;
+  padding:15px 0 !important;
+  font-family:"Noto Sans JP",sans-serif !important;
+  font-size:19px !important; font-weight:500 !important;
+  letter-spacing:.02em !important;
+  color:var(--ink) !important;
+  border-bottom:1px solid var(--line) !important;
+  transition:color .25s ease, padding-left .3s var(--ease) !important;
+}
+.site-header .nav ul li a:hover{color:var(--brand) !important; padding-left:8px !important}
+.site-header .nav ul li a.active,
+.site-header .nav ul li a[aria-current="page"]{color:var(--brand) !important; font-weight:600 !important}
+
+/* Hamburger bar color: white over the dark hero (closed), dark otherwise */
+body:not(.nav-open) .site-header.on-hero:not(.scrolled) .nav-toggle span{background:#fff !important}
+
+/* Backdrop behind the drawer */
+body.nav-open::after{
+  content:""; position:fixed; inset:0;
+  background:rgba(10,18,96,.42);
+  backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  z-index:89;
+}
+body.nav-open{overflow:hidden}
+
+/* === v79: Breadcrumb (パンくずリスト) === */
+.breadcrumb{margin:0 0 30px}
+.breadcrumb-list{
+  list-style:none; padding:0; margin:0;
+  display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+  font-family:"Inter","Noto Sans JP",sans-serif;
+  font-size:12px; letter-spacing:.04em;
+}
+.breadcrumb-item{display:inline-flex; align-items:center; gap:10px; color:var(--ink-dim)}
+.breadcrumb-item:not(:first-child)::before{
+  content:""; display:inline-block;
+  width:6px; height:6px;
+  border-top:1.5px solid var(--brand-line);
+  border-right:1.5px solid var(--brand-line);
+  transform:rotate(45deg);
+}
+.breadcrumb-item a{color:var(--ink-dim); text-decoration:none; transition:color .25s ease}
+.breadcrumb-item a:hover{color:var(--brand)}
+.breadcrumb-item[aria-current="page"]{color:var(--ink); font-weight:600}
+@media (max-width:600px){
+  .breadcrumb{margin:0 0 22px}
+  .breadcrumb-list{font-size:11px; gap:8px}
+  .breadcrumb-item{gap:8px}
+}
+
+/* Breadcrumb on dark profile hero (member.html) */
+.breadcrumb-on-dark{margin-bottom:18px}
+.breadcrumb-on-dark .breadcrumb-item{color:rgba(255,255,255,.7)}
+.breadcrumb-on-dark .breadcrumb-item a{color:rgba(255,255,255,.7)}
+.breadcrumb-on-dark .breadcrumb-item a:hover{color:#fff}
+.breadcrumb-on-dark .breadcrumb-item[aria-current="page"]{color:#fff}
+.breadcrumb-on-dark .breadcrumb-item:not(:first-child)::before{
+  border-top-color:rgba(255,255,255,.45);
+  border-right-color:rgba(255,255,255,.45);
+}
