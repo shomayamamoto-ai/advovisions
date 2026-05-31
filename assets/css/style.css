@@ -2468,3 +2468,36 @@ body.nav-open{overflow:hidden}
   .pain-ctas{flex-direction:column}
   .pain-cta-main,.pain-cta-sub{width:100%; justify-content:center; text-align:center}
 }
+
+/* === v81: Reassurance / trust line above CTA buttons === */
+.cta-trust{
+  list-style:none; padding:0; margin:0 0 18px;
+  display:flex; flex-wrap:wrap; justify-content:center;
+  gap:10px 22px;
+  font-family:"Noto Sans JP",sans-serif;
+  font-size:12.5px; letter-spacing:.02em; font-weight:500;
+  color:var(--ink-dim,#5a6078);
+}
+.cta-trust li{display:inline-flex; align-items:center; gap:7px}
+.cta-trust .trust-check{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:16px; height:16px; border-radius:50%;
+  background:rgba(36,55,200,.1); color:var(--brand);
+  font-size:10px; font-weight:700; line-height:1;
+}
+/* Light variant — over dark hero / brand-colored CTA band */
+.cta-trust-light{color:rgba(255,255,255,.9)}
+.cta-trust-light .trust-check{background:rgba(255,255,255,.18); color:#fff}
+
+/* Hero: sit the trust row just above the buttons */
+.hero-ctas .cta-trust,
+.hero-content .cta-trust{margin-bottom:16px}
+.hero .cta-trust-light{margin-top:4px}
+
+/* Contact CTA band spacing */
+#contact .cta-trust{margin:6px 0 22px}
+
+@media (max-width:600px){
+  .cta-trust{gap:8px 16px; font-size:11.5px}
+  .cta-trust .trust-check{width:15px; height:15px; font-size:9px}
+}
