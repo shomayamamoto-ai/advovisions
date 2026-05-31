@@ -2629,3 +2629,47 @@ body.nav-open{overflow:hidden}
   .site-header .logo-text-col{height:40px !important}
   .site-header .logo-text-col .logo-text{height:24px !important}
 }
+
+/* === v86: Force header tagline visible & legible across all states === */
+.site-header .logo-text-col .logo-tagline{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  font-family:"Noto Serif JP","Noto Sans JP",serif !important;
+  font-size:11px !important;
+  letter-spacing:.10em !important;
+  line-height:1.2 !important;
+  white-space:nowrap;
+  font-weight:500;
+  margin-top:1px;
+}
+.site-header.on-hero:not(.scrolled) .logo-text-col .logo-tagline{
+  color:#ffffff !important;
+  text-shadow:0 1px 6px rgba(0,0,0,.35);
+  opacity:.92 !important;
+}
+.site-header.scrolled .logo-text-col .logo-tagline{
+  color:var(--brand,#2437c8) !important;
+  font-size:10px !important;
+  text-shadow:none;
+}
+.site-header:not(.on-hero) .logo-text-col .logo-tagline{
+  color:var(--brand,#2437c8) !important;
+  text-shadow:none;
+}
+
+/* Give the column a tiny bit more breathing room */
+.site-header .logo-text-col{
+  height:auto !important;
+  align-self:center;
+  padding:2px 0;
+}
+.site-header .logo-wrap-header{
+  align-items:center !important;
+  overflow:visible !important;
+}
+
+/* Only hide tagline on very narrow phones so the hamburger has room */
+@media (max-width: 480px){
+  .site-header .logo-text-col .logo-tagline{display:none !important}
+}
