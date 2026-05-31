@@ -2501,3 +2501,36 @@ body.nav-open{overflow:hidden}
   .cta-trust{gap:8px 16px; font-size:11.5px}
   .cta-trust .trust-check{width:15px; height:15px; font-size:9px}
 }
+
+/* === v82: Header logo tagline ("あなたのVisionを世界へ提言する") === */
+.site-header .logo{
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  gap:3px !important;
+  height:auto !important;
+  line-height:1;
+}
+.logo-tagline{
+  display:block;
+  font-family:"Noto Serif JP",serif;
+  font-size:10.5px;
+  letter-spacing:.16em;
+  font-weight:500;
+  white-space:nowrap;
+  color:rgba(255,255,255,.82);
+  transition:color .3s var(--ease), opacity .3s var(--ease);
+  margin-left:2px;
+}
+/* Light over the hero (transparent header) */
+.site-header.on-hero .logo-tagline{color:rgba(255,255,255,.82)}
+/* Dark when header is scrolled / on non-hero pages */
+.site-header.scrolled .logo-tagline,
+.site-header:not(.on-hero) .logo-tagline{color:var(--brand, #2437c8)}
+
+/* Shrink when header collapses on scroll */
+.site-header.scrolled .logo-tagline{font-size:9.5px}
+
+/* Hide on small screens (clutter; hero h1 already carries the message) */
+@media (max-width: 900px){
+  .logo-tagline{display:none}
+}
