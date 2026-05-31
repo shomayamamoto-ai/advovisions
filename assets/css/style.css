@@ -2579,3 +2579,53 @@ body.nav-open{overflow:hidden}
 @media (max-width:560px){
   .logo-text-col .logo-tagline{display:none}
 }
+
+/* === v85: Restore explicit logo image sizing inside new logo-text-col === */
+.site-header .logo-wrap-header{
+  height:48px !important;
+  min-height:48px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:12px !important;
+}
+.site-header .logo-wrap-header .logo-icon{
+  height:48px !important;
+  width:auto !important;
+  flex:0 0 auto;
+  display:block !important;
+}
+.site-header .logo-text-col{
+  height:48px !important;
+  display:inline-flex !important;
+  flex-direction:column !important;
+  justify-content:center !important;
+  align-items:flex-start !important;
+  gap:2px !important;
+  flex:0 0 auto;
+}
+.site-header .logo-text-col .logo-text{
+  height:26px !important;
+  width:auto !important;
+  display:block !important;
+  flex:0 0 auto;
+}
+.site-header .logo-text-col .logo-tagline{
+  font-size:10.5px;
+  letter-spacing:.12em;
+  line-height:1;
+  white-space:nowrap;
+}
+
+/* Scrolled header — compact */
+.site-header.scrolled .logo-wrap-header{height:40px !important; min-height:40px !important}
+.site-header.scrolled .logo-wrap-header .logo-icon{height:40px !important}
+.site-header.scrolled .logo-text-col{height:40px !important}
+.site-header.scrolled .logo-text-col .logo-text{height:22px !important}
+.site-header.scrolled .logo-text-col .logo-tagline{font-size:9.5px}
+
+@media (max-width:560px){
+  .site-header .logo-wrap-header,
+  .site-header .logo-wrap-header .logo-icon,
+  .site-header .logo-text-col{height:40px !important}
+  .site-header .logo-text-col .logo-text{height:24px !important}
+}
