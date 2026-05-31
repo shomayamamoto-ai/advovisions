@@ -2,6 +2,7 @@
     <section class="profile-hero-v2">
       <div class="profile-hero-bg" style="background-image:url('${m.portrait}')"></div>
       <div class="container">
+        <nav class="breadcrumb breadcrumb-on-dark" aria-label="パンくずリスト"><ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList"><li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a itemprop="item" href="index.html"><span itemprop="name">ホーム</span></a><meta itemprop="position" content="1"></li><li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a itemprop="item" href="members.html"><span itemprop="name">タレント</span></a><meta itemprop="position" content="2"></li><li class="breadcrumb-item" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><span itemprop="name">${m.name}</span><meta itemprop="position" content="3"></li></ol></nav>
         <a class="back-link" href="members.html">← 所属タレント一覧へ戻る</a>
         <div class="profile-grid-v2">
           <div class="profile-portrait-col">
