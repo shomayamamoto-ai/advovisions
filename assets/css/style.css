@@ -2534,3 +2534,48 @@ body.nav-open{overflow:hidden}
 @media (max-width: 900px){
   .logo-tagline{display:none}
 }
+
+/* === v84: Header logo-tagline alignment under the "AdvoVisions" wordmark === */
+/* Wordmark + tagline stack vertically; icon stays on the left */
+.site-header .logo{height:auto !important; align-items:center !important}
+.site-header .logo-wrap-header{
+  height:auto !important;
+  min-height:48px !important;
+  align-items:center !important;
+}
+.logo-text-col{
+  display:inline-flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  line-height:1 !important;
+  gap:4px !important;
+}
+.logo-text-col .logo-text{
+  height:36px !important;
+  width:auto !important;
+  display:block !important;
+}
+/* Tagline sits flush under the wordmark image */
+.logo-text-col .logo-tagline{
+  display:block;
+  margin:0 !important;
+  padding:0 !important;
+  font-family:"Noto Serif JP","Noto Sans JP",serif;
+  font-size:10.5px;
+  letter-spacing:.14em;
+  font-weight:500;
+  white-space:nowrap;
+  line-height:1;
+  color:rgba(255,255,255,.85);
+  transition:color .3s var(--ease), font-size .3s var(--ease), opacity .3s var(--ease);
+}
+.site-header.scrolled .logo-text-col .logo-text{height:30px !important}
+.site-header.scrolled .logo-text-col .logo-tagline{font-size:9.5px; color:var(--brand)}
+.site-header:not(.on-hero) .logo-text-col .logo-tagline{color:var(--brand)}
+.site-header.on-hero:not(.scrolled) .logo-text-col .logo-tagline{color:rgba(255,255,255,.88)}
+
+/* Hide tagline only on very narrow phones (header crowding) */
+@media (max-width:560px){
+  .logo-text-col .logo-tagline{display:none}
+}
