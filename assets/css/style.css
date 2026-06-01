@@ -2673,3 +2673,77 @@ body.nav-open{overflow:hidden}
 @media (max-width: 480px){
   .site-header .logo-text-col .logo-tagline{display:none !important}
 }
+
+/* === v87: Make hamburger drawer reliably visible on all viewports === */
+.site-header .nav{
+  position:fixed !important;
+  top:0 !important; right:0 !important; bottom:0 !important; left:auto !important;
+  width:min(88vw, 380px) !important; max-width:380px !important;
+  background:#ffffff !important;          /* fully opaque, no alpha */
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+  padding:104px 36px 40px !important;
+  transform:translateX(100%) !important;
+  transition:transform .55s cubic-bezier(.77,0,.18,1) !important;
+  box-shadow:-26px 0 70px rgba(19,30,122,.18) !important;
+  display:block !important;
+  z-index:96 !important;
+  overflow-y:auto !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto;
+}
+.site-header .nav.open{transform:translateX(0) !important}
+
+.site-header .nav ul{
+  list-style:none !important;
+  display:flex !important; flex-direction:column !important;
+  align-items:stretch !important;
+  gap:0 !important;
+  width:100% !important;
+  margin:0 !important; padding:0 !important;
+  font-size:initial;
+}
+.site-header .nav ul li{
+  display:block !important; width:100%;
+  opacity:1 !important; transform:none !important;
+  list-style:none !important;
+  transition:none !important;
+}
+.site-header .nav ul li a{
+  display:block !important; width:100%;
+  padding:18px 4px !important;
+  font-family:"Noto Sans JP",sans-serif !important;
+  font-size:18px !important; font-weight:500 !important;
+  letter-spacing:.02em !important;
+  color:var(--ink, #0f1430) !important;
+  background:transparent !important;
+  border-bottom:1px solid var(--line,#e4e8f4) !important;
+  text-decoration:none !important;
+  transition:color .25s ease, padding-left .3s var(--ease) !important;
+}
+.site-header .nav ul li a:hover{
+  color:var(--brand) !important;
+  padding-left:10px !important;
+}
+.site-header .nav ul li a.active,
+.site-header .nav ul li a[aria-current="page"]{
+  color:var(--brand) !important;
+  font-weight:700 !important;
+}
+.site-header .nav ul li:last-child a{border-bottom:0 !important}
+
+/* Even on the dark hero, nav links must be dark INSIDE the white drawer */
+.site-header.on-hero .nav a{color:var(--ink,#0f1430) !important; background:transparent !important}
+.site-header.on-hero .nav a.active,
+.site-header.on-hero .nav a[aria-current="page"]{color:var(--brand) !important}
+
+/* Backdrop overlay behind the drawer when open */
+body.nav-open::after{
+  content:"" !important; position:fixed !important; inset:0 !important;
+  background:rgba(15,20,48,.5) !important;
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  z-index:88 !important;
+  pointer-events:auto;
+}
+body.nav-open{overflow:hidden}
