@@ -2747,3 +2747,42 @@ body.nav-open::after{
   pointer-events:auto;
 }
 body.nav-open{overflow:hidden}
+
+/* === v88: Hard override — drawer MUST be opaque, links MUST be dark === */
+html body .site-header .nav,
+html body .site-header.on-hero .nav,
+html body .site-header.scrolled .nav,
+html body .site-header:not(.scrolled) .nav,
+html body .site-header.on-hero:not(.scrolled) .nav{
+  background:#ffffff !important;
+  -webkit-backdrop-filter:none !important;
+  backdrop-filter:none !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+html body .site-header .nav a,
+html body .site-header.on-hero .nav a,
+html body .site-header.scrolled .nav a,
+html body .site-header.on-hero:not(.scrolled) .nav a{
+  color:var(--ink, #0f1430) !important;
+  background:transparent !important;
+  -webkit-text-fill-color:var(--ink, #0f1430) !important;
+  text-shadow:none !important;
+}
+html body .site-header .nav a.active,
+html body .site-header .nav a[aria-current="page"]{
+  color:var(--brand, #2437c8) !important;
+  -webkit-text-fill-color:var(--brand, #2437c8) !important;
+}
+/* Kill the underline indicator inside the drawer (was for horizontal nav) */
+html body .site-header .nav a::after{display:none !important}
+
+/* === v89: Disable custom cursor + magnetic button effects entirely === */
+.cursor-dot, .cursor-ring, .cursor-glow{display:none !important}
+body, body.cursor-hover, body.cursor-text, body.cursor-press{cursor:auto !important}
+.btn-primary, .btn-outline, .casting-cta-btn, .to-top, .back-to-top{
+  transform:none !important;
+}
+.btn-primary:hover, .btn-outline:hover{
+  transform:translateY(-2px) !important;
+}
