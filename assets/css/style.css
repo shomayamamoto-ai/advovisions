@@ -2786,3 +2786,93 @@ body, body.cursor-hover, body.cursor-text, body.cursor-press{cursor:auto !import
 .btn-primary:hover, .btn-outline:hover{
   transform:translateY(-2px) !important;
 }
+
+/* === v90: HARD RESET — eliminate every nav-drawer conflict permanently === */
+@media all{
+  html body header.site-header nav.nav,
+  html body header.site-header.on-hero nav.nav,
+  html body header.site-header.scrolled nav.nav,
+  html body header.site-header.on-hero:not(.scrolled) nav.nav,
+  html body header.site-header:not(.on-hero) nav.nav{
+    position:fixed !important;
+    top:0 !important; right:0 !important; bottom:0 !important; left:auto !important;
+    width:min(86vw, 360px) !important;
+    max-width:360px !important;
+    height:100vh !important;
+    background:#ffffff !important;
+    background-color:#ffffff !important;
+    background-image:none !important;
+    -webkit-backdrop-filter:none !important;
+    backdrop-filter:none !important;
+    opacity:1 !important;
+    visibility:visible !important;
+    display:block !important;
+    z-index:9000 !important;
+    padding:96px 32px 40px !important;
+    margin:0 !important;
+    transform:translateX(100%) !important;
+    transition:transform .55s cubic-bezier(.77,0,.18,1) !important;
+    box-shadow:-26px 0 70px rgba(19,30,122,.18) !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    pointer-events:auto;
+  }
+  html body header.site-header nav.nav.open,
+  html body header.site-header.on-hero nav.nav.open,
+  html body header.site-header.scrolled nav.nav.open{
+    transform:translateX(0) !important;
+  }
+  html body header.site-header nav.nav ul{
+    list-style:none !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:stretch !important;
+    gap:0 !important;
+    width:100% !important;
+    margin:0 !important; padding:0 !important;
+  }
+  html body header.site-header nav.nav ul li{
+    display:block !important;
+    width:100% !important;
+    opacity:1 !important;
+    transform:none !important;
+    transition:none !important;
+    visibility:visible !important;
+    list-style:none !important;
+    margin:0 !important;
+    background:transparent !important;
+  }
+  html body header.site-header nav.nav ul li a,
+  html body header.site-header.on-hero nav.nav ul li a,
+  html body header.site-header.scrolled nav.nav ul li a{
+    display:block !important;
+    width:100% !important;
+    padding:18px 4px !important;
+    color:#0f1430 !important;
+    -webkit-text-fill-color:#0f1430 !important;
+    background:transparent !important;
+    font-family:"Noto Sans JP",sans-serif !important;
+    font-size:17px !important;
+    font-weight:500 !important;
+    letter-spacing:.02em !important;
+    text-decoration:none !important;
+    border-bottom:1px solid #e4e8f4 !important;
+    text-shadow:none !important;
+    opacity:1 !important;
+    visibility:visible !important;
+  }
+  html body header.site-header nav.nav ul li a.active,
+  html body header.site-header nav.nav ul li a[aria-current="page"]{
+    color:#2437c8 !important;
+    -webkit-text-fill-color:#2437c8 !important;
+    font-weight:700 !important;
+  }
+  html body header.site-header nav.nav ul li a::after,
+  html body header.site-header nav.nav ul li a::before{
+    display:none !important;
+    content:none !important;
+  }
+  html body header.site-header nav.nav ul li:last-child a{
+    border-bottom:0 !important;
+  }
+}
