@@ -2876,3 +2876,23 @@ body, body.cursor-hover, body.cursor-text, body.cursor-press{cursor:auto !import
     border-bottom:0 !important;
   }
 }
+
+/* === v93: Restore browser-default cursor everywhere === */
+@media all{
+  html, html body{cursor:auto !important}
+  a, button, [role="button"], .nav-toggle, summary, details summary,
+  .talent-card, .work-card, .news-card, .chip, .filter-chips .chip,
+  .service-tile, .insta-strip a, .testimonial-card,
+  .lang-switch button, .to-top, .back-to-top, .play, .modal-close,
+  .nav a, .profile-social-v2 a, .profile-gallery-item, .casting-cta-btn,
+  .lightbox-close, .lightbox-prev, .lightbox-next,
+  .faq-item summary{
+    cursor:pointer !important;
+  }
+  input, textarea, [contenteditable="true"]{
+    cursor:text !important;
+  }
+  select{
+    cursor:default !important;
+  }
+}
