@@ -3654,3 +3654,106 @@ section.block.alt{
   .hero-cta-main, .hero-cta-outline{width:100%}
   .hero-ctas{width:100%}
 }
+
+/* === v97: Match groups (S-G accordion) + loading state === */
+.match-go.is-loading{
+  opacity:.7;
+  pointer-events:none;
+  position:relative;
+}
+.match-go.is-loading::after{
+  content:""; display:inline-block;
+  width:10px; height:10px;
+  border:2px solid #fff;
+  border-top-color:transparent;
+  border-radius:50%;
+  margin-left:10px;
+  animation:matchSpin .8s linear infinite;
+  vertical-align:middle;
+}
+@keyframes matchSpin{to{transform:rotate(360deg)}}
+
+.match-groups{margin-top:24px}
+.match-group{
+  background:#fff;
+  border:1px solid var(--line,#e4e8f4);
+  border-radius:3px;
+  margin-bottom:14px;
+  overflow:hidden;
+  transition:border-color .3s var(--ease);
+}
+.match-group:hover{border-color:rgba(36,55,200,.25)}
+.match-group > summary{
+  list-style:none;
+  display:grid;
+  grid-template-columns:48px 1fr auto auto 24px;
+  gap:18px;
+  align-items:center;
+  padding:18px 22px;
+  cursor:pointer;
+  user-select:none;
+  background:#fafbff;
+  transition:background .3s var(--ease);
+}
+.match-group > summary::-webkit-details-marker{display:none}
+.match-group > summary:hover{background:#f4f6ff}
+.match-group .mg-r{
+  font-family:"Cormorant Garamond",serif;
+  font-style:italic; font-weight:600;
+  font-size:38px; line-height:1;
+  text-align:center;
+}
+.match-group .mg-label{
+  font-family:"Noto Sans JP",sans-serif;
+  font-size:14px; font-weight:700;
+  color:#0f1430;
+  letter-spacing:.02em;
+}
+.match-group .mg-count{
+  font-family:"Inter",sans-serif;
+  font-size:11px; font-weight:600;
+  color:#5a6078;
+  letter-spacing:.16em;
+  padding:5px 10px;
+  background:rgba(36,55,200,.06);
+  border-radius:2px;
+}
+.match-group .mg-fee-range{
+  font-family:"Cormorant Garamond",serif;
+  font-style:italic; font-weight:500;
+  font-size:15px;
+  color:#5a6078;
+  white-space:nowrap;
+}
+.match-group .mg-icon{
+  width:14px; height:14px;
+  border-right:2px solid #5a6078;
+  border-bottom:2px solid #5a6078;
+  transform:rotate(45deg);
+  margin-top:-4px;
+  transition:transform .3s var(--ease);
+  justify-self:center;
+}
+.match-group[open] .mg-icon{transform:rotate(-135deg); margin-top:4px}
+.match-group .match-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+  gap:10px;
+  padding:18px;
+  background:#fff;
+}
+@media(max-width:560px){
+  .match-group > summary{grid-template-columns:38px 1fr auto 16px; gap:12px; padding:14px 16px}
+  .match-group .mg-fee-range{display:none}
+  .match-group .mg-r{font-size:30px}
+  .match-group .match-list{grid-template-columns:1fr; padding:12px}
+}
+
+/* Top rank S: subtle highlight */
+.match-group.rk-S > summary{background:linear-gradient(90deg,#fffaeb 0%,#fafbff 60%)}
+.match-group.rk-A > summary{background:linear-gradient(90deg,#f4f6ff 0%,#fafbff 60%)}
+
+/* Update overall results list grid (used by run() top12 layout removal) */
+.match-results .match-list:not(.match-group .match-list){
+  grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+}
