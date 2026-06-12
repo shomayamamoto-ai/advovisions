@@ -2896,3 +2896,434 @@ body, body.cursor-hover, body.cursor-text, body.cursor-press{cursor:auto !import
     cursor:default !important;
   }
 }
+
+/* =================================================================
+   v95 — Editorial design refinement + Casting Matching UI
+   ================================================================= */
+
+/* --- Refined typography rhythm --- */
+.block-title{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+  font-weight:500 !important;
+  font-style:italic !important;
+  letter-spacing:-0.012em !important;
+  line-height:1.18 !important;
+  font-size:clamp(34px,4.6vw,64px) !important;
+}
+.block-title em.serif-italic{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+  font-style:italic; font-weight:500;
+  background:linear-gradient(120deg,#2437c8 0%, #5b6dff 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.eyebrow{
+  font-family:"Inter",sans-serif !important;
+  font-size:10.5px !important;
+  letter-spacing:.42em !important;
+  font-weight:600 !important;
+  color:var(--brand,#2437c8) !important;
+  text-transform:uppercase !important;
+  margin-bottom:18px !important;
+}
+.eyebrow::before{
+  content:""; display:inline-block;
+  width:24px; height:1px; background:currentColor;
+  vertical-align:middle; margin-right:10px;
+  transform:translateY(-2px);
+}
+.block-desc{
+  font-size:15px !important;
+  line-height:2 !important;
+  color:#5a6078 !important;
+  max-width:680px;
+  margin:14px auto 0 !important;
+}
+
+/* Section rhythm – generous breathing room */
+section.block{
+  padding-top:clamp(80px,12vw,160px) !important;
+  padding-bottom:clamp(80px,12vw,160px) !important;
+}
+.block-head{margin-bottom:64px}
+.block-head.left{text-align:left}
+
+/* Refined hairline divider used across blocks */
+.divider-rule{
+  display:block; width:48px; height:1px;
+  background:var(--brand,#2437c8);
+  margin:0 auto 24px;
+}
+
+/* ========== CASTING MATCH SECTION ========== */
+.match-section{
+  position:relative;
+  background:linear-gradient(180deg,#fafbff 0%,#eef1ff 100%);
+  overflow:hidden;
+  isolation:isolate;
+}
+.match-bg{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse at 12% 20%, rgba(36,55,200,.07), transparent 50%),
+    radial-gradient(ellipse at 88% 80%, rgba(91,109,255,.08), transparent 50%);
+  pointer-events:none;
+  z-index:0;
+}
+.match-section > .container{position:relative; z-index:1}
+
+.match-form{
+  background:#fff;
+  border-radius:18px;
+  padding:42px clamp(20px,4vw,52px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.6) inset,
+    0 30px 80px -30px rgba(19,30,122,.18),
+    0 0 0 1px rgba(36,55,200,.06);
+  max-width:1080px;
+  margin:0 auto;
+}
+.match-field{margin-bottom:28px}
+.match-field > label{
+  display:block;
+  font-family:"Inter","Noto Sans JP",sans-serif;
+  font-size:11px; letter-spacing:.32em; font-weight:700;
+  color:#0f1430;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+.match-field > label .hint{
+  font-weight:500; font-size:10px;
+  letter-spacing:.2em;
+  color:#8a8fa3;
+  margin-left:10px;
+  text-transform:none;
+}
+.match-chips{display:flex; flex-wrap:wrap; gap:8px}
+.m-chip{
+  display:inline-flex; align-items:center;
+  padding:9px 16px;
+  border:1px solid #d6dcff;
+  background:#fff;
+  color:#1a2353;
+  border-radius:999px;
+  font-family:"Noto Sans JP",sans-serif;
+  font-size:13px; font-weight:500;
+  cursor:pointer;
+  transition:all .22s cubic-bezier(.2,.8,.2,1);
+}
+.m-chip:hover{
+  border-color:var(--brand);
+  background:#f6f8ff;
+  transform:translateY(-1px);
+}
+.m-chip.active{
+  background:var(--brand) !important;
+  border-color:var(--brand) !important;
+  color:#fff !important;
+  box-shadow:0 6px 18px -6px rgba(36,55,200,.5);
+  transform:translateY(-1px);
+}
+.match-row{display:grid; grid-template-columns:repeat(3,1fr); gap:28px}
+@media(max-width:760px){.match-row{grid-template-columns:1fr}}
+.match-range{display:flex; align-items:center; gap:12px}
+.match-range input,
+.match-input{
+  flex:1; min-width:0;
+  border:1px solid #d6dcff;
+  background:#f6f8ff;
+  border-radius:10px;
+  padding:14px 16px;
+  font-family:"Inter","Noto Sans JP",sans-serif;
+  font-size:14px;
+  color:#0f1430;
+  outline:none;
+  transition:border-color .22s ease, background .22s ease, box-shadow .22s ease;
+}
+.match-range input:focus,
+.match-input:focus{
+  border-color:var(--brand);
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(36,55,200,.12);
+}
+.dash{color:#8a8fa3; font-weight:600}
+
+.match-actions{
+  display:flex; gap:16px; align-items:center; justify-content:center;
+  padding-top:14px; margin-top:24px;
+  border-top:1px solid #eef1ff;
+  flex-wrap:wrap;
+}
+.match-go{
+  padding:16px 36px !important;
+  border-radius:10px !important;
+  font-weight:700 !important;
+  letter-spacing:.04em !important;
+  font-size:15px !important;
+  box-shadow:0 18px 40px -16px rgba(36,55,200,.55) !important;
+}
+.match-go:hover{transform:translateY(-2px)}
+.match-reset{
+  background:transparent;
+  border:none;
+  color:#5a6078;
+  font-size:13px;
+  cursor:pointer;
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+.match-reset:hover{color:var(--brand)}
+
+/* Results */
+.match-results{margin-top:48px}
+.match-results:empty{display:none}
+.match-summary{text-align:center; margin-bottom:32px}
+.ms-eyebrow{
+  font-family:"Inter",sans-serif;
+  font-size:10px; letter-spacing:.5em; font-weight:600;
+  color:var(--brand); margin-bottom:10px;
+}
+.ms-title{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif;
+  font-style:italic; font-weight:500;
+  font-size:clamp(24px,3.2vw,40px);
+  line-height:1.3;
+  color:#0f1430;
+  margin:0 0 14px;
+}
+.ms-title strong{color:var(--brand); font-style:normal; font-weight:600}
+.ms-sub{margin:0; display:inline-flex; flex-wrap:wrap; gap:8px; justify-content:center}
+.ms-tag{
+  display:inline-block; padding:5px 12px; border-radius:999px;
+  background:rgba(36,55,200,.08);
+  color:var(--brand);
+  font-size:11px; letter-spacing:.06em; font-weight:600;
+}
+
+/* Rank legend strip */
+.match-legend{
+  display:grid; grid-template-columns:repeat(8,1fr);
+  gap:8px;
+  margin-bottom:32px;
+  background:#fff;
+  border-radius:14px;
+  padding:18px;
+  box-shadow:0 0 0 1px rgba(36,55,200,.06), 0 10px 30px -20px rgba(19,30,122,.18);
+}
+.ml-cell{
+  text-align:center;
+  padding:8px 6px;
+  border-radius:8px;
+}
+.ml-r{
+  font-family:"Cormorant Garamond",serif;
+  font-style:italic; font-weight:600;
+  font-size:26px; line-height:1;
+}
+.ml-c{
+  font-family:"Inter",sans-serif;
+  font-size:11px; color:#5a6078; margin-top:4px; font-weight:600;
+}
+.rk-S .ml-r,.rk-S .mc-rank{color:#ffd24d}
+.rk-A .ml-r,.rk-A .mc-rank{color:#2437c8}
+.rk-B .ml-r,.rk-B .mc-rank{color:#5b6dff}
+.rk-C .ml-r,.rk-C .mc-rank{color:#7c8ad9}
+.rk-D .ml-r,.rk-D .mc-rank{color:#9aa3c9}
+.rk-E .ml-r,.rk-E .mc-rank{color:#a8aebf}
+.rk-F .ml-r,.rk-F .mc-rank{color:#b7bbc7}
+.rk-G .ml-r,.rk-G .mc-rank{color:#c5c7cf}
+@media(max-width:760px){.match-legend{grid-template-columns:repeat(4,1fr)}}
+
+/* Result cards */
+.match-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(420px,1fr));
+  gap:14px;
+}
+@media(max-width:560px){.match-list{grid-template-columns:1fr}}
+.match-card{
+  display:grid;
+  grid-template-columns:46px 88px 1fr auto;
+  gap:18px;
+  align-items:center;
+  background:#fff;
+  border-radius:14px;
+  padding:16px 20px 16px 14px;
+  text-decoration:none;
+  color:inherit;
+  box-shadow:0 0 0 1px rgba(36,55,200,.06), 0 14px 40px -28px rgba(19,30,122,.25);
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease);
+  position:relative;
+  overflow:hidden;
+}
+.match-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 0 1px rgba(36,55,200,.18), 0 22px 50px -22px rgba(19,30,122,.35);
+}
+.match-card::before{
+  content:""; position:absolute; left:0; top:0; bottom:0;
+  width:3px;
+  background:currentColor;
+  opacity:.7;
+}
+.match-card.rk-S{background:linear-gradient(180deg,#fffbe9 0%, #fff 60%)}
+.match-card.rk-A{background:linear-gradient(180deg,#f4f6ff 0%, #fff 60%)}
+.mc-rank{
+  font-family:"Cormorant Garamond",serif;
+  font-style:italic; font-weight:600;
+  font-size:34px; line-height:1;
+  text-align:center;
+}
+.mc-photo{
+  width:88px; height:108px;
+  border-radius:8px; overflow:hidden;
+  background:#eef1ff;
+}
+.mc-photo img{width:100%; height:100%; object-fit:cover; display:block}
+.mc-body{min-width:0}
+.mc-id{
+  font-family:"Inter",sans-serif;
+  font-size:10px; letter-spacing:.28em; font-weight:700;
+  color:#9aa3c9; margin-bottom:4px;
+}
+.mc-dept{
+  font-family:"Noto Sans JP",sans-serif;
+  font-size:14px; font-weight:700;
+  color:#0f1430; margin-bottom:4px;
+}
+.mc-skills{
+  font-size:12px; line-height:1.5;
+  color:#5a6078; margin-bottom:8px;
+  text-overflow:ellipsis; overflow:hidden; white-space:nowrap;
+}
+.mc-meta{display:flex; gap:14px}
+.mc-meta span{
+  font-family:"Inter",sans-serif;
+  font-size:10.5px; letter-spacing:.06em;
+  color:#8a8fa3;
+}
+.mc-fee{text-align:right; padding-left:8px}
+.mc-fee-label{
+  font-family:"Inter",sans-serif;
+  font-size:9px; letter-spacing:.32em; font-weight:600;
+  color:#8a8fa3; text-transform:uppercase; margin-bottom:4px;
+}
+.mc-fee-val{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif;
+  font-style:italic; font-weight:500;
+  font-size:22px; line-height:1.1;
+  color:#0f1430;
+}
+.mc-fee-note{
+  font-family:"Inter",sans-serif;
+  font-size:10px; color:#9aa3c9; margin-top:4px;
+  letter-spacing:.04em;
+}
+
+.match-footer{margin-top:32px; text-align:center}
+.match-disc{
+  font-size:11.5px;
+  color:#8a8fa3;
+  line-height:1.7;
+  max-width:600px;
+  margin:0 auto 18px;
+}
+.match-contact{
+  display:inline-block;
+  padding:16px 32px !important;
+  border-radius:10px !important;
+  font-weight:700 !important;
+  letter-spacing:.04em !important;
+  font-size:14px !important;
+}
+
+/* ========== Refined existing sections ========== */
+
+/* Specialty tiles: airier, more editorial */
+.specialty-tile{
+  aspect-ratio:3/4 !important;
+  border-radius:10px !important;
+}
+.specialty-tile::before{
+  background:linear-gradient(180deg, rgba(15,20,48,.15) 0%, rgba(15,20,48,.78) 100%) !important;
+}
+.specialty-en{
+  font-family:"Cormorant Garamond",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+  font-size:22px !important;
+  letter-spacing:.005em !important;
+  text-transform:none !important;
+}
+.specialty-jp{
+  font-family:"Noto Sans JP",sans-serif !important;
+  font-size:12px !important;
+  letter-spacing:.32em !important;
+  opacity:.85 !important;
+}
+.specialty-count{
+  font-family:"Inter",sans-serif !important;
+  font-size:10px !important;
+  letter-spacing:.32em !important;
+  opacity:.7 !important;
+}
+
+/* Hero refinement */
+.hero-title{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+  letter-spacing:-0.005em !important;
+  line-height:1.15 !important;
+  font-size:clamp(38px,5.6vw,72px) !important;
+}
+.hero-title .en{font-weight:500 !important}
+.hero-sub{font-size:15px !important; line-height:2 !important; opacity:.94 !important}
+
+/* About section refinement */
+#about h2{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+  font-size:clamp(34px,4.8vw,60px) !important;
+  letter-spacing:-0.015em !important;
+  line-height:1.2 !important;
+}
+.about-copy p{
+  font-size:15.5px !important;
+  line-height:2.1 !important;
+  color:#3a4060 !important;
+  letter-spacing:.02em !important;
+}
+
+/* Cards general refinement: lighter shadows, finer borders */
+.philo-card, .service-tile, .news-card, .pain-card{
+  border-radius:14px !important;
+}
+.philo-card{
+  border:1px solid rgba(36,55,200,.08) !important;
+  box-shadow:0 30px 60px -40px rgba(19,30,122,.16) !important;
+}
+
+/* CEO quote refinement */
+.ceo-quote{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+  font-style:italic !important;
+  font-weight:400 !important;
+  font-size:clamp(20px,2.4vw,30px) !important;
+  line-height:1.7 !important;
+  color:#1a2353 !important;
+}
+
+/* Footer refinement */
+.site-footer{padding-top:90px !important; padding-bottom:48px !important}
+.site-footer h4{
+  font-family:"Inter",sans-serif !important;
+  font-size:10px !important;
+  letter-spacing:.34em !important;
+  font-weight:700 !important;
+  text-transform:uppercase !important;
+}
+
+/* Section anchor offset for sticky header */
+section[id]{scroll-margin-top:90px}
