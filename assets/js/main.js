@@ -396,56 +396,84 @@ function rankOf(sc){
 
 function yen(n){return "¥"+n.toLocaleString()}
 
+var CAT_LABEL={any:"指定なし",actor:"俳優・女優",model:"モデル",singer:"歌手・アーティスト",voice:"声優"};
+var RIGHTS_LABEL={buyout1y:"1年買取",buyout2y:"2年買取",buyout3y:"3年買取",none:"買取なし"};
 function run(){
-  var list=window.ADVO_MEMBERS.map(function(m){
-    var sc=score(m),rk=rankOf(sc);
-    return{m:m,sc:sc,rk:rk,fee:feeFor(m)};
-  }).sort(function(a,b){return b.sc-a.sc});
+  var btn=document.getElementById("match-go");
+  if(btn){btn.disabled=true;btn.classList.add("is-loading");btn.textContent="診断中…";}
 
-  /* group by rank */
-  var groups={S:[],A:[],B:[],C:[],D:[],E:[],F:[],G:[]};
-  list.forEach(function(x){groups[x.rk.r].push(x)});
+  /* small async to let UI breath */
+  setTimeout(function(){
+    var list=window.ADVO_MEMBERS.map(function(m){
+      var sc=score(m),rk=rankOf(sc),f=feeFor(m);
+      return{m:m,sc:sc,rk:rk,fee:f};
+    }).sort(function(a,b){
+      if(b.sc!==a.sc)return b.sc-a.sc;
+      return a.fee-b.fee;
+    });
 
-  /* render */
-  var top=list.slice(0,12);
-  var html='<div class="match-summary"><div class="ms-eyebrow">RESULT</div><h3 class="ms-title">最適候補 <strong>'+groups.S.length+'</strong>名 + <strong>'+groups.A.length+'</strong>名 (S+Aランク)</h3><p class="ms-sub">条件: '+
-    (state.media?'<span class="ms-tag">'+state.media+'</span>':'')+
-    (state.category!=="any"?'<span class="ms-tag">'+state.category+'</span>':'')+
-    (state.gender!=="any"?'<span class="ms-tag">'+(state.gender==="M"?"男性":"女性")+'</span>':'')+
-    (state.skills.length?'<span class="ms-tag">スキル'+state.skills.length+'件</span>':'')+
-    (state.budget?'<span class="ms-tag">予算 '+yen(state.budget)+'</span>':'')+
-    '</p></div>';
+    /* group by rank */
+    var groups={S:[],A:[],B:[],C:[],D:[],E:[],F:[],G:[]};
+    list.forEach(function(x){groups[x.rk.r].push(x)});
 
-  /* rank legend */
-  html+='<div class="match-legend">';
-  ["S","A","B","C","D","E","F","G"].forEach(function(r){
-    html+='<div class="ml-cell rk-'+r+'"><div class="ml-r">'+r+'</div><div class="ml-c">'+groups[r].length+'</div></div>';
-  });
-  html+='</div>';
+    var labels={S:"圧倒的に推奨",A:"強くおすすめ",B:"十分に候補",C:"検討の余地あり",D:"条件次第で可",E:"優先度低め",F:"参考候補",G:"非推奨"};
+    var defaultOpen={S:true,A:true,B:true,C:false,D:false,E:false,F:false,G:false};
 
-  /* top 12 list */
-  html+='<div class="match-list">';
-  top.forEach(function(x){
-    var m=x.m;
-    html+='<a class="match-card rk-'+x.rk.r+'" href="member.html?id='+m.id+'">'+
-      '<div class="mc-rank"><span>'+x.rk.r+'</span></div>'+
-      '<div class="mc-photo"><img src="'+m.portrait+'" alt="" loading="lazy"></div>'+
-      '<div class="mc-body">'+
-        '<div class="mc-id">ADV-'+m.id+'</div>'+
-        '<div class="mc-dept">'+m.dept+'</div>'+
-        '<div class="mc-skills">'+(m.expertise||[]).slice(0,3).join(' · ')+'</div>'+
-        '<div class="mc-meta"><span>身長 '+(m.height||'-')+'cm</span><span>経験 '+(2026-(m.joined||2024))+'年</span></div>'+
-      '</div>'+
-      '<div class="mc-fee"><div class="mc-fee-label">推定見積</div><div class="mc-fee-val">'+yen(x.fee)+'</div><div class="mc-fee-note">'+x.sc.toFixed(0)+' / 100 pt</div></div>'+
-    '</a>';
-  });
-  html+='</div>';
+    /* summary */
+    var html='<div class="match-summary"><div class="ms-eyebrow">RESULT — '+list.length+' TALENTS RANKED</div>'+
+      '<h3 class="ms-title">Sランク <strong>'+groups.S.length+'</strong>名 ／ Aランク <strong>'+groups.A.length+'</strong>名 ／ Bランク <strong>'+groups.B.length+'</strong>名</h3>'+
+      '<p class="ms-sub">条件：'+
+        (state.media?'<span class="ms-tag">'+state.media+'</span>':'')+
+        (state.category!=="any"?'<span class="ms-tag">'+CAT_LABEL[state.category]+'</span>':'')+
+        (state.gender!=="any"?'<span class="ms-tag">'+(state.gender==="M"?"男性":"女性")+'</span>':'')+
+        (state.skills.length?'<span class="ms-tag">スキル '+state.skills.length+'件</span>':'')+
+        (state.hMin||state.hMax?'<span class="ms-tag">身長 '+(state.hMin||"-")+'〜'+(state.hMax||"-")+'cm</span>':'')+
+        (state.rights?'<span class="ms-tag">'+RIGHTS_LABEL[state.rights]+'</span>':'')+
+        (state.budget?'<span class="ms-tag">予算 '+yen(state.budget)+'</span>':'')+
+      '</p></div>';
 
-  html+='<div class="match-footer"><p class="match-disc">※ 推定見積は媒体・買取条件・スキル一致度・経験年数を元にした参考値です。正式お見積りはお問い合わせください。</p><a href="#contact" class="btn-primary match-contact">この候補で正式見積を依頼する →</a></div>';
+    /* legend */
+    html+='<div class="match-legend">';
+    ["S","A","B","C","D","E","F","G"].forEach(function(r){
+      html+='<div class="ml-cell rk-'+r+'"><div class="ml-r">'+r+'</div><div class="ml-c">'+groups[r].length+'名</div></div>';
+    });
+    html+='</div>';
 
-  RESULT.innerHTML=html;
-  /* smooth scroll */
-  setTimeout(function(){RESULT.scrollIntoView({behavior:"smooth",block:"start"})},120);
+    /* grouped rank sections */
+    html+='<div class="match-groups">';
+    ["S","A","B","C","D","E","F","G"].forEach(function(r){
+      var arr=groups[r];
+      if(!arr.length)return;
+      var open=defaultOpen[r]?" is-open":"";
+      html+='<details class="match-group rk-'+r+open+'"'+(defaultOpen[r]?" open":"")+'>'+
+        '<summary><span class="mg-r">'+r+'</span><span class="mg-label">'+labels[r]+'</span><span class="mg-count">'+arr.length+'名</span><span class="mg-fee-range">'+
+          yen(Math.min.apply(null,arr.map(function(x){return x.fee})))+' 〜 '+yen(Math.max.apply(null,arr.map(function(x){return x.fee})))+
+        '</span><span class="mg-icon" aria-hidden="true"></span></summary>'+
+        '<div class="match-list">';
+      arr.forEach(function(x){
+        var m=x.m;
+        html+='<a class="match-card rk-'+x.rk.r+'" href="member.html?id='+m.id+'">'+
+          '<div class="mc-rank"><span>'+x.rk.r+'</span></div>'+
+          '<div class="mc-photo"><img src="'+m.portrait+'" alt="" loading="lazy"></div>'+
+          '<div class="mc-body">'+
+            '<div class="mc-id">ADV-'+m.id+'</div>'+
+            '<div class="mc-dept">'+m.dept+'</div>'+
+            '<div class="mc-skills">'+(m.expertise||[]).slice(0,3).join(' · ')+'</div>'+
+            '<div class="mc-meta"><span>身長 '+(m.height||'-')+'cm</span><span>経験 '+(2026-(m.joined||2024))+'年</span></div>'+
+          '</div>'+
+          '<div class="mc-fee"><div class="mc-fee-label">推定見積</div><div class="mc-fee-val">'+yen(x.fee)+'</div><div class="mc-fee-note">'+x.sc.toFixed(0)+' / 100 pt</div></div>'+
+        '</a>';
+      });
+      html+='</div></details>';
+    });
+    html+='</div>';
+
+    html+='<div class="match-footer"><p class="match-disc">※ 推定見積は媒体・買取条件・スキル一致度・経験年数を元にした参考値です。実際の出演料は拘束時間・撮影内容・二次使用範囲などにより変動します。正式お見積りはキャスティング担当へお問い合わせください。</p><a href="#contact" class="btn-primary match-contact">上位候補で正式見積を依頼する →</a></div>';
+
+    RESULT.innerHTML=html;
+    if(btn){btn.disabled=false;btn.classList.remove("is-loading");btn.textContent="候補を診断する →";}
+    setTimeout(function(){RESULT.scrollIntoView({behavior:"smooth",block:"start"})},120);
+  },180);
 }
 
 bind();
