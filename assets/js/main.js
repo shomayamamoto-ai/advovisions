@@ -253,4 +253,200 @@ document.addEventListener("keydown",function(ev){
   if(ev.key==="Escape"&&document.body.classList.contains("nav-open"))setOpen(false);
 });
 }(),function(){const e=document.getElementById("video-modal");e&&document.addEventListener("keydown",t=>{if(e.classList.contains("open")&&" "===t.key){t.preventDefault();const n=e.querySelector("video");if(!n)return;n.paused?n.play().catch(()=>{}):n.pause()}})}(),function(){const e=document.querySelector(".preloader-brand");if(!e)return;const t=e.textContent.trim();e.innerHTML="";const n=document.createElement("span");n.className="brand-glyph",n.textContent="",e.appendChild(n),e.setAttribute("data-text",t),e.classList.add("shown");const o="AVadviosnSKJQXZWY$@#*/0123456789",a=t.length;const s=performance.now();function r(i){const c=i-s,l=Math.min(1,c/(36e3/28)),d=Math.floor(l*a);let u="";for(let e=0;e<a;e++)e<d?u+=t[e]:" "===t[e]?u+=" ":u+=o[Math.floor(32*Math.random())];n.textContent=u,e.setAttribute("data-text",u),l<1?requestAnimationFrame(r):(n.textContent=t,e.setAttribute("data-text",t))}setTimeout(()=>requestAnimationFrame(r),1800)}(),function(){const t=document.getElementById('testimonial-track'),d=document.getElementById('testimonial-dots');if(!t||!d)return;const cards=Array.from(t.children);d.innerHTML=cards.map((_,i)=>`<button data-i="${i}" aria-label="Go to ${i+1}"${i===0?' class="active"':''}></button>`).join('');const btns=d.querySelectorAll('button');btns.forEach(b=>b.addEventListener('click',()=>{const i=parseInt(b.dataset.i,10);const card=cards[i];const target=card.offsetLeft-t.offsetWidth/2+card.offsetWidth/2;t.scrollTo({left:Math.max(0,target),behavior:'smooth'})}));let sTo;t.addEventListener('scroll',()=>{clearTimeout(sTo);sTo=setTimeout(()=>{const c=t.scrollLeft+t.offsetWidth/2;let near=0,min=1e9;cards.forEach((cd,i)=>{const d=Math.abs(cd.offsetLeft+cd.offsetWidth/2-c);if(d<min){min=d;near=i}});btns.forEach((b,i)=>b.classList.toggle('active',i===near))},80)})}(),function(){const b=document.querySelector('.to-top');if(!b)return;b.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));window.addEventListener('scroll',()=>b.classList.toggle('show',window.scrollY>400),{passive:!0})}(),function(){const v=document.querySelector('.hero-video');if(!v||matchMedia('(prefers-reduced-motion:reduce)').matches)return;let tf=null;window.addEventListener('scroll',()=>{if(tf)return;tf=requestAnimationFrame(()=>{const y=Math.min(window.scrollY,800);v.style.transform=`translate3d(0,${y*.15}px,0) scale(${1+y*.0002})`;tf=null})},{passive:!0})}()
-,function(){}(),function(){const items=document.querySelectorAll('.profile-gallery-item');if(!items.length)return;const urls=Array.from(items).map(a=>a.getAttribute('href'));const lb=document.createElement('div');lb.className='lightbox';lb.innerHTML=`<button class="lightbox-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button><button class="lightbox-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button><button class="lightbox-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button><div class="lightbox-content"><img class="lightbox-img" src="" alt=""></div><div class="lightbox-counter"></div>`;document.body.appendChild(lb);const img=lb.querySelector('.lightbox-img'),counter=lb.querySelector('.lightbox-counter');let cur=0;function show(i){cur=(i+urls.length)%urls.length;img.src=urls[cur];counter.textContent=String(cur+1).padStart(2,'0')+' / '+String(urls.length).padStart(2,'0')}function open(i){show(i);lb.classList.add('open');document.body.style.overflow='hidden'}function close(){lb.classList.remove('open');document.body.style.overflow=''}items.forEach((a,i)=>{a.addEventListener('click',e=>{e.preventDefault();open(i)})});lb.querySelector('.lightbox-close').addEventListener('click',close);lb.querySelector('.lightbox-prev').addEventListener('click',()=>show(cur-1));lb.querySelector('.lightbox-next').addEventListener('click',()=>show(cur+1));lb.addEventListener('click',e=>{if(e.target===lb)close()});document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')close();else if(e.key==='ArrowLeft')show(cur-1);else if(e.key==='ArrowRight')show(cur+1)})}(),function(){}(),function(){const track=document.getElementById('testimonial-track');if(!track)return;const cards=Array.from(track.children);if(cards.length<2)return;let cur=0,timer=null,paused=false;function go(i){cur=(i+cards.length)%cards.length;const card=cards[cur];const target=card.offsetLeft-track.offsetWidth/2+card.offsetWidth/2;track.scrollTo({left:Math.max(0,target),behavior:'smooth'})}function play(){if(paused)return;timer=setTimeout(()=>{go(cur+1);play()},6500)}function pause(){clearTimeout(timer);paused=true;setTimeout(()=>{paused=false;play()},10000)}track.addEventListener('mouseenter',()=>{clearTimeout(timer);paused=true});track.addEventListener('mouseleave',()=>{paused=false;play()});track.addEventListener('scroll',pause,{passive:true});play()}(),function(){if(!document.querySelector('.filter-chips .chip'))return;const cat=new URLSearchParams(location.search).get('cat');if(!cat)return;setTimeout(()=>{const btn=document.querySelector('.filter-chips .chip[data-dept="'+cat+'"]');if(btn){btn.click();window.scrollTo({top:Math.max(0,btn.getBoundingClientRect().top+window.scrollY-140),behavior:'smooth'})}},120)}()
+,function(){}(),function(){const items=document.querySelectorAll('.profile-gallery-item');if(!items.length)return;const urls=Array.from(items).map(a=>a.getAttribute('href'));const lb=document.createElement('div');lb.className='lightbox';lb.innerHTML=`<button class="lightbox-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button><button class="lightbox-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button><button class="lightbox-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button><div class="lightbox-content"><img class="lightbox-img" src="" alt=""></div><div class="lightbox-counter"></div>`;document.body.appendChild(lb);const img=lb.querySelector('.lightbox-img'),counter=lb.querySelector('.lightbox-counter');let cur=0;function show(i){cur=(i+urls.length)%urls.length;img.src=urls[cur];counter.textContent=String(cur+1).padStart(2,'0')+' / '+String(urls.length).padStart(2,'0')}function open(i){show(i);lb.classList.add('open');document.body.style.overflow='hidden'}function close(){lb.classList.remove('open');document.body.style.overflow=''}items.forEach((a,i)=>{a.addEventListener('click',e=>{e.preventDefault();open(i)})});lb.querySelector('.lightbox-close').addEventListener('click',close);lb.querySelector('.lightbox-prev').addEventListener('click',()=>show(cur-1));lb.querySelector('.lightbox-next').addEventListener('click',()=>show(cur+1));lb.addEventListener('click',e=>{if(e.target===lb)close()});document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')close();else if(e.key==='ArrowLeft')show(cur-1);else if(e.key==='ArrowRight')show(cur+1)})}(),function(){}(),function(){const track=document.getElementById('testimonial-track');if(!track)return;const cards=Array.from(track.children);if(cards.length<2)return;let cur=0,timer=null,paused=false;function go(i){cur=(i+cards.length)%cards.length;const card=cards[cur];const target=card.offsetLeft-track.offsetWidth/2+card.offsetWidth/2;track.scrollTo({left:Math.max(0,target),behavior:'smooth'})}function play(){if(paused)return;timer=setTimeout(()=>{go(cur+1);play()},6500)}function pause(){clearTimeout(timer);paused=true;setTimeout(()=>{paused=false;play()},10000)}track.addEventListener('mouseenter',()=>{clearTimeout(timer);paused=true});track.addEventListener('mouseleave',()=>{paused=false;play()});track.addEventListener('scroll',pause,{passive:true});play()}(),function(){if(!document.querySelector('.filter-chips .chip'))return;const cat=new URLSearchParams(location.search).get('cat');if(!cat)return;setTimeout(()=>{const btn=document.querySelector('.filter-chips .chip[data-dept="'+cat+'"]');if(btn){btn.click();window.scrollTo({top:Math.max(0,btn.getBoundingClientRect().top+window.scrollY-140),behavior:'smooth'})}},120)}(),function(){
+var FORM=document.getElementById("match-form");
+if(!FORM||!window.ADVO_MEMBERS)return;
+var RESULT=document.getElementById("match-results");
+
+/* selection state */
+var state={media:null,category:"any",gender:"any",skills:[],rights:null,budget:null,hMin:null,hMax:null};
+
+function bind(){
+  FORM.querySelectorAll(".match-chips").forEach(function(grp){
+    var key=grp.getAttribute("data-key"),multi=grp.classList.contains("multi");
+    grp.querySelectorAll(".m-chip").forEach(function(c){
+      c.addEventListener("click",function(){
+        var val=c.getAttribute("data-val");
+        if(multi){
+          c.classList.toggle("active");
+          state[key]=Array.prototype.map.call(grp.querySelectorAll(".m-chip.active"),function(x){return x.getAttribute("data-val")});
+        } else {
+          grp.querySelectorAll(".m-chip").forEach(function(x){x.classList.remove("active")});
+          c.classList.add("active");
+          state[key]=val;
+        }
+      });
+    });
+  });
+  document.getElementById("match-h-min").addEventListener("input",function(e){state.hMin=parseInt(e.target.value,10)||null});
+  document.getElementById("match-h-max").addEventListener("input",function(e){state.hMax=parseInt(e.target.value,10)||null});
+  document.getElementById("match-budget").addEventListener("input",function(e){state.budget=parseInt(e.target.value,10)||null});
+  document.getElementById("match-go").addEventListener("click",run);
+  document.getElementById("match-reset").addEventListener("click",reset);
+}
+
+function reset(){
+  state={media:null,category:"any",gender:"any",skills:[],rights:null,budget:null,hMin:null,hMax:null};
+  FORM.querySelectorAll(".m-chip").forEach(function(x){x.classList.remove("active")});
+  ["match-h-min","match-h-max","match-budget"].forEach(function(id){var el=document.getElementById(id);if(el)el.value=""});
+  RESULT.innerHTML="";
+}
+
+/* dept -> category */
+var DEPT_CAT={
+  "男性アクター":"actor","女性アクター":"actor",
+  "男性モデル":"model","女性モデル":"model",
+  "男性歌手":"singer","女性歌手":"singer",
+  "男性声優":"voice","女性声優":"voice"
+};
+/* media -> preferred categories */
+var MEDIA_BOOST={
+  "CM":["actor","model"],"WebCM":["actor","model","singer"],
+  "MV":["singer","actor","model"],"Drama":["actor"],"Film":["actor"],
+  "Stage":["actor","singer"],"Event":["model","singer"],
+  "Photo":["model","actor"],"Voice":["voice"]
+};
+/* base fee by dept (yen, 1 talent, baseline) */
+var FEE_BASE={
+  "男性アクター":380000,"女性アクター":420000,
+  "男性モデル":280000,"女性モデル":320000,
+  "男性歌手":450000,"女性歌手":480000,
+  "男性声優":220000,"女性声優":240000
+};
+/* media multiplier */
+var FEE_MEDIA={
+  "CM":1.6,"WebCM":1.1,"MV":1.0,"Drama":1.2,"Film":1.3,
+  "Stage":0.95,"Event":0.9,"Photo":0.8,"Voice":0.85
+};
+/* rights multiplier */
+var FEE_RIGHTS={"buyout1y":1.4,"buyout2y":1.8,"buyout3y":2.3,"none":1.0};
+
+function feeFor(m){
+  var base=FEE_BASE[m.dept]||300000;
+  var media=state.media?(FEE_MEDIA[state.media]||1):1;
+  var rights=state.rights?(FEE_RIGHTS[state.rights]||1):1;
+  /* experience premium */
+  var years=2026-(m.joined||2024);
+  var expMul=1+Math.max(0,Math.min(years,15))*0.04;
+  /* skill premium: each matched skill +5% */
+  var matched=(m.expertise||[]).filter(function(s){return state.skills.indexOf(s)>=0}).length;
+  var skillMul=1+matched*0.05;
+  var fee=base*media*rights*expMul*skillMul;
+  /* round to 10k */
+  return Math.round(fee/10000)*10000;
+}
+
+function score(m){
+  var s=50; /* base */
+  /* category */
+  var cat=DEPT_CAT[m.dept];
+  if(state.category!=="any"){
+    if(cat===state.category)s+=20; else s-=20;
+  }
+  /* gender */
+  if(state.gender!=="any"){
+    if(m.gender===state.gender)s+=12; else s-=30;
+  }
+  /* media fit */
+  if(state.media){
+    var pref=MEDIA_BOOST[state.media]||[];
+    if(pref.indexOf(cat)===0)s+=18;
+    else if(pref.indexOf(cat)>0)s+=10;
+    else if(pref.length&&pref.indexOf(cat)<0)s-=8;
+  }
+  /* skills */
+  var skillsMatched=(m.expertise||[]).filter(function(x){return state.skills.indexOf(x)>=0}).length;
+  if(state.skills.length){
+    var ratio=skillsMatched/state.skills.length;
+    s+=Math.round(ratio*25);
+    if(skillsMatched===0)s-=15;
+  }
+  /* height */
+  if(state.hMin&&m.height<state.hMin)s-=10;
+  if(state.hMax&&m.height>state.hMax)s-=10;
+  if(state.hMin&&state.hMax&&m.height>=state.hMin&&m.height<=state.hMax)s+=6;
+  /* experience */
+  var yrs=2026-(m.joined||2024);
+  s+=Math.min(yrs*0.6,10);
+  /* budget */
+  if(state.budget){
+    var f=feeFor(m);
+    if(f<=state.budget)s+=8;
+    else {
+      var over=(f-state.budget)/state.budget;
+      s-=Math.min(over*30,25);
+    }
+  }
+  /* deterministic small jitter from id so equal scores rank stably */
+  var idn=parseInt(m.id,10);
+  s+=((idn*97)%17-8)*0.1;
+  return Math.max(0,Math.min(100,s));
+}
+
+function rankOf(sc){
+  if(sc>=92)return{r:"S",label:"圧倒的に推奨"};
+  if(sc>=84)return{r:"A",label:"強くおすすめ"};
+  if(sc>=76)return{r:"B",label:"十分に候補"};
+  if(sc>=68)return{r:"C",label:"検討の余地あり"};
+  if(sc>=58)return{r:"D",label:"条件次第で可"};
+  if(sc>=48)return{r:"E",label:"優先度低め"};
+  if(sc>=38)return{r:"F",label:"参考候補"};
+  return{r:"G",label:"非推奨"};
+}
+
+function yen(n){return "¥"+n.toLocaleString()}
+
+function run(){
+  var list=window.ADVO_MEMBERS.map(function(m){
+    var sc=score(m),rk=rankOf(sc);
+    return{m:m,sc:sc,rk:rk,fee:feeFor(m)};
+  }).sort(function(a,b){return b.sc-a.sc});
+
+  /* group by rank */
+  var groups={S:[],A:[],B:[],C:[],D:[],E:[],F:[],G:[]};
+  list.forEach(function(x){groups[x.rk.r].push(x)});
+
+  /* render */
+  var top=list.slice(0,12);
+  var html='<div class="match-summary"><div class="ms-eyebrow">RESULT</div><h3 class="ms-title">最適候補 <strong>'+groups.S.length+'</strong>名 + <strong>'+groups.A.length+'</strong>名 (S+Aランク)</h3><p class="ms-sub">条件: '+
+    (state.media?'<span class="ms-tag">'+state.media+'</span>':'')+
+    (state.category!=="any"?'<span class="ms-tag">'+state.category+'</span>':'')+
+    (state.gender!=="any"?'<span class="ms-tag">'+(state.gender==="M"?"男性":"女性")+'</span>':'')+
+    (state.skills.length?'<span class="ms-tag">スキル'+state.skills.length+'件</span>':'')+
+    (state.budget?'<span class="ms-tag">予算 '+yen(state.budget)+'</span>':'')+
+    '</p></div>';
+
+  /* rank legend */
+  html+='<div class="match-legend">';
+  ["S","A","B","C","D","E","F","G"].forEach(function(r){
+    html+='<div class="ml-cell rk-'+r+'"><div class="ml-r">'+r+'</div><div class="ml-c">'+groups[r].length+'</div></div>';
+  });
+  html+='</div>';
+
+  /* top 12 list */
+  html+='<div class="match-list">';
+  top.forEach(function(x){
+    var m=x.m;
+    html+='<a class="match-card rk-'+x.rk.r+'" href="member.html?id='+m.id+'">'+
+      '<div class="mc-rank"><span>'+x.rk.r+'</span></div>'+
+      '<div class="mc-photo"><img src="'+m.portrait+'" alt="" loading="lazy"></div>'+
+      '<div class="mc-body">'+
+        '<div class="mc-id">ADV-'+m.id+'</div>'+
+        '<div class="mc-dept">'+m.dept+'</div>'+
+        '<div class="mc-skills">'+(m.expertise||[]).slice(0,3).join(' · ')+'</div>'+
+        '<div class="mc-meta"><span>身長 '+(m.height||'-')+'cm</span><span>経験 '+(2026-(m.joined||2024))+'年</span></div>'+
+      '</div>'+
+      '<div class="mc-fee"><div class="mc-fee-label">推定見積</div><div class="mc-fee-val">'+yen(x.fee)+'</div><div class="mc-fee-note">'+x.sc.toFixed(0)+' / 100 pt</div></div>'+
+    '</a>';
+  });
+  html+='</div>';
+
+  html+='<div class="match-footer"><p class="match-disc">※ 推定見積は媒体・買取条件・スキル一致度・経験年数を元にした参考値です。正式お見積りはお問い合わせください。</p><a href="#contact" class="btn-primary match-contact">この候補で正式見積を依頼する →</a></div>';
+
+  RESULT.innerHTML=html;
+  /* smooth scroll */
+  setTimeout(function(){RESULT.scrollIntoView({behavior:"smooth",block:"start"})},120);
+}
+
+bind();
+}();
