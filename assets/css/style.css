@@ -3327,3 +3327,330 @@ section.block{
 
 /* Section anchor offset for sticky header */
 section[id]{scroll-margin-top:90px}
+
+/* =================================================================
+   v96 — DESIGN SYSTEM OVERHAUL: editorial / cinematic discipline
+   Inspired by high-end agency & film-studio sites:
+   - left-aligned editorial hero, no decorative wave
+   - squared buttons with hairline borders, inverted hover
+   - restrained color (navy + paper + one accent), hairline rules
+   - dark navy footer & contact band as a brand statement
+   ================================================================= */
+
+/* ---------- 0. Foundations ---------- */
+::selection{background:#2437c8; color:#fff}
+:focus-visible{outline:2px solid #2437c8; outline-offset:3px}
+.scroll-progress{height:2px !important; background:var(--brand,#2437c8) !important}
+
+/* ---------- 1. Buttons: editorial squared system ---------- */
+.btn-primary, .btn-outline,
+.hero-cta-main, .hero-cta-outline,
+.pain-cta-main, .pain-cta-sub,
+.match-go, .match-contact{
+  border-radius:2px !important;
+  letter-spacing:.12em !important;
+  font-family:"Noto Sans JP","Inter",sans-serif !important;
+  font-size:13px !important;
+  font-weight:600 !important;
+  box-shadow:none !important;
+  transition:background .3s var(--ease), color .3s var(--ease),
+             border-color .3s var(--ease), transform .3s var(--ease) !important;
+}
+.btn-primary:hover, .btn-outline:hover,
+.pain-cta-main:hover, .match-go:hover{
+  transform:translateY(-2px) !important;
+  box-shadow:none !important;
+}
+
+/* ---------- 2. HERO: left-aligned editorial composition ---------- */
+.hero-wave{display:none !important}
+section.hero{
+  padding:170px 24px 140px !important;
+  align-items:flex-end !important;
+}
+section.hero::after{
+  background:
+    linear-gradient(180deg, rgba(7,10,31,.62) 0%, rgba(10,14,40,.45) 45%, rgba(7,10,31,.82) 100%) !important;
+}
+.hero-content{
+  max-width:1180px !important;
+  width:100% !important;
+  margin:0 auto !important;
+  align-items:flex-start !important;
+  text-align:left !important;
+}
+.hero-eyebrow{margin-left:0 !important}
+.hero-title{
+  font-size:clamp(44px,7vw,96px) !important;
+  line-height:1.08 !important;
+  max-width:18em;
+  text-wrap:balance;
+}
+.hero-company{
+  font-family:"Inter","Noto Sans JP",sans-serif !important;
+  font-style:normal !important;
+  font-size:12px !important;
+  letter-spacing:.42em !important;
+  font-weight:500 !important;
+  opacity:.85;
+  margin:18px 0 26px !important;
+  text-transform:uppercase;
+}
+.hero-company .en{
+  font-family:"Cormorant Garamond",serif !important;
+  font-style:italic !important;
+  font-size:15px !important;
+  letter-spacing:.08em !important;
+  text-transform:none;
+}
+.hero-sub{
+  margin:0 !important;
+  max-width:560px !important;
+  text-align:left !important;
+  font-size:14.5px !important;
+}
+.hero-sub strong{
+  background:none !important;
+  border-bottom:1px solid rgba(255,255,255,.55);
+  padding:0 1px 1px !important;
+  color:#fff !important;
+  font-weight:600 !important;
+}
+.hero-proof{
+  justify-content:flex-start !important;
+  margin:40px 0 36px !important;
+  gap:56px !important;
+}
+.hero-proof li{align-items:flex-start !important}
+.hero-proof strong sup{color:#fff !important; opacity:.7}
+.hero-proof span{letter-spacing:.3em !important}
+.hero .cta-trust-light{justify-content:flex-start !important; margin-left:0 !important}
+.hero-ctas{justify-content:flex-start !important}
+
+/* Hero primary: white block button (cinema-ticket style) */
+.hero-cta-main{
+  background:#ffffff !important;
+  color:#0f1430 !important;
+  border:1px solid #ffffff !important;
+  padding:18px 34px 14px !important;
+  align-items:flex-start !important;
+}
+.hero-cta-main:hover{
+  background:#f2f4ff !important;
+  color:#0f1430 !important;
+}
+.hero-cta-main .hero-cta-note{color:rgba(15,20,48,.6) !important}
+.hero-cta-outline{
+  border:1px solid rgba(255,255,255,.5) !important;
+  background:transparent !important;
+}
+.hero-cta-outline:hover{
+  background:#fff !important;
+  color:#0f1430 !important;
+  border-color:#fff !important;
+}
+
+/* ---------- 3. Press strip: quiet, gallery-caption tone ---------- */
+.press-strip{
+  padding:30px 0 38px !important;
+  border-bottom:1px solid var(--line,#e4e8f4);
+}
+.press-strip-label{
+  font-size:9px !important;
+  letter-spacing:.5em !important;
+  color:#9aa3c9 !important;
+}
+.press-item{
+  font-size:13px !important;
+  color:#8a8fa3 !important;
+  opacity:.85;
+}
+.press-track{animation-duration:55s !important}
+
+/* ---------- 4. Hairline section separations ---------- */
+section.block.alt{
+  border-top:1px solid var(--line,#e4e8f4);
+  border-bottom:1px solid var(--line,#e4e8f4);
+  background:#fafbfe !important;
+}
+
+/* ---------- 5. Cards: flat, hairline, sharpened ---------- */
+.philo-card, .pain-card, .service-tile, .news-card, .award-card, .talent-card, .match-card, .testimonial-card{
+  border-radius:3px !important;
+  box-shadow:none !important;
+  border:1px solid var(--line,#e4e8f4) !important;
+  transition:border-color .35s var(--ease), transform .35s var(--ease), box-shadow .35s var(--ease) !important;
+}
+.philo-card:hover, .pain-card:hover, .service-tile:hover, .news-card:hover, .award-card:hover, .match-card:hover{
+  border-color:rgba(36,55,200,.45) !important;
+  transform:translateY(-4px) !important;
+  box-shadow:0 24px 44px -32px rgba(19,30,122,.35) !important;
+}
+.talent-card:hover{
+  border-color:rgba(36,55,200,.45) !important;
+}
+.specialty-tile{border-radius:3px !important}
+.mc-photo{border-radius:2px !important}
+.match-form{border-radius:4px !important; box-shadow:none !important; border:1px solid var(--line,#e4e8f4) !important}
+.match-legend{border-radius:3px !important; box-shadow:none !important; border:1px solid var(--line,#e4e8f4)}
+.m-chip{border-radius:2px !important}
+.match-range input, .match-input{border-radius:2px !important}
+.ms-tag{border-radius:2px !important}
+
+/* Award/History cards: editorial year typography */
+.award-card .award-year{
+  font-family:"Cormorant Garamond",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+  color:var(--brand) !important;
+  font-size:54px !important;
+  line-height:1 !important;
+}
+
+/* ---------- 6. Process timeline: lighter numerals ---------- */
+.process-num{
+  font-family:"Cormorant Garamond",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+}
+.philo-num, .manifesto-num{
+  font-family:"Cormorant Garamond",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+  color:rgba(36,55,200,.4) !important;
+}
+
+/* ---------- 7. Stats: hairline separated, no boxes ---------- */
+.stats{gap:0 !important; border:1px solid var(--line,#e4e8f4); border-radius:3px; overflow:hidden}
+.stat{
+  border:0 !important;
+  box-shadow:none !important;
+  border-left:1px solid var(--line,#e4e8f4) !important;
+  border-radius:0 !important;
+  background:#fff !important;
+}
+.stat:first-child{border-left:0 !important}
+.stat .num{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+}
+@media(max-width:900px){
+  .stat:nth-child(odd){border-left:0 !important}
+  .stat{border-top:1px solid var(--line,#e4e8f4) !important}
+  .stat:nth-child(-n+2){border-top:0 !important}
+}
+
+/* ---------- 8. Contact band + footer: deep navy statement ---------- */
+#contact.cta{
+  background:#0a0f2e !important;
+  padding:140px 24px !important;
+}
+#contact.cta h2{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+  font-size:clamp(34px,5vw,64px) !important;
+  letter-spacing:-.01em !important;
+  color:#fff !important;
+}
+#contact.cta em.serif-italic{
+  -webkit-text-fill-color:initial !important;
+  background:none !important;
+  color:#aab6ff !important;
+}
+.site-footer{
+  background:#070b22 !important;
+  color:rgba(255,255,255,.78) !important;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.site-footer .footer-grid{border-top:1px solid rgba(255,255,255,.08); padding-top:48px}
+.site-footer h4{color:rgba(255,255,255,.5) !important}
+.site-footer a{color:rgba(255,255,255,.78)}
+.site-footer a:hover{color:#fff}
+.site-footer .footer-bottom{
+  border-top:1px solid rgba(255,255,255,.08);
+  color:rgba(255,255,255,.4);
+  font-size:11px;
+  letter-spacing:.08em;
+}
+.newsletter{
+  background:transparent !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  border-radius:3px !important;
+}
+.newsletter-form input{
+  background:rgba(255,255,255,.06) !important;
+  border:1px solid rgba(255,255,255,.18) !important;
+  color:#fff !important;
+  border-radius:2px !important;
+}
+.newsletter-form input::placeholder{color:rgba(255,255,255,.4)}
+.newsletter-form button{
+  background:#fff !important;
+  color:#0a0f2e !important;
+  border-radius:2px !important;
+  font-weight:700 !important;
+  letter-spacing:.1em !important;
+}
+
+/* ---------- 9. FAQ & testimonials: hairline discipline ---------- */
+.faq-item{
+  border:0 !important;
+  border-bottom:1px solid var(--line,#e4e8f4) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+}
+.faq-item[open]{background:transparent !important}
+.faq-q-num{
+  font-family:"Cormorant Garamond",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+  color:rgba(36,55,200,.5) !important;
+}
+.testimonial-card{padding:48px 40px 36px !important}
+.testimonial-card p{font-size:15.5px !important}
+
+/* ---------- 10. Back-to-top: square hairline ---------- */
+.back-to-top, .to-top{
+  border-radius:2px !important;
+  background:#fff !important;
+  color:#0f1430 !important;
+  border:1px solid var(--line,#e4e8f4) !important;
+  box-shadow:0 10px 30px -16px rgba(19,30,122,.3) !important;
+}
+.back-to-top:hover, .to-top:hover{
+  background:var(--brand) !important;
+  color:#fff !important;
+  border-color:var(--brand) !important;
+}
+
+/* ---------- 11. Trust checks: hairline circles ---------- */
+.cta-trust .trust-check{
+  background:transparent !important;
+  border:1px solid currentColor;
+  opacity:.85;
+}
+
+/* ---------- 12. Pain bridge & CTAs squared ---------- */
+.pain-cta-main{padding:16px 34px !important}
+.pain-cta-sub{border-radius:2px !important}
+
+/* ---------- 13. Insta strip: tighter, monochrome rest state ---------- */
+.insta-strip img{
+  filter:grayscale(.65) contrast(1.02);
+  transition:filter .5s var(--ease), transform .5s var(--ease);
+  border-radius:2px;
+}
+.insta-strip a:hover img{filter:none; transform:scale(1.02)}
+
+/* ---------- 14. Modal & lightbox radius discipline ---------- */
+.modal-inner, .contact-modal-inner{border-radius:4px !important}
+
+/* ---------- 15. Mobile hero adjustments ---------- */
+@media(max-width:700px){
+  section.hero{padding:140px 20px 110px !important}
+  .hero-proof{gap:30px !important}
+  .hero-cta-main, .hero-cta-outline{width:100%}
+  .hero-ctas{width:100%}
+}
