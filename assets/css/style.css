@@ -3757,3 +3757,100 @@ section.block.alt{
 .match-results .match-list:not(.match-group .match-list){
   grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
 }
+
+/* === v98: Discover grid (homepage exit ramp) === */
+.discover-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:0;
+  border-top:1px solid var(--line,#e4e8f4);
+  border-left:1px solid var(--line,#e4e8f4);
+}
+.discover-card{
+  display:block;
+  padding:42px 36px 36px;
+  background:#fff;
+  border-right:1px solid var(--line,#e4e8f4);
+  border-bottom:1px solid var(--line,#e4e8f4);
+  color:#0f1430;
+  text-decoration:none;
+  position:relative;
+  transition:background .35s var(--ease), color .35s var(--ease);
+}
+.discover-card:hover{
+  background:#0a0f2e;
+  color:#fff;
+}
+.discover-card .dc-num{
+  font-family:"Cormorant Garamond",serif;
+  font-style:italic; font-weight:500;
+  font-size:32px; line-height:1;
+  color:var(--brand,#2437c8);
+  margin-bottom:16px;
+  transition:color .35s var(--ease);
+}
+.discover-card:hover .dc-num{color:#ffd24d}
+.dc-en{
+  font-family:"Cormorant Garamond",serif;
+  font-style:italic; font-weight:500;
+  font-size:14px;
+  color:#8a8fa3;
+  margin-bottom:6px;
+  letter-spacing:.04em;
+}
+.discover-card:hover .dc-en{color:rgba(255,255,255,.6)}
+.dc-jp{
+  font-family:"Noto Sans JP",sans-serif;
+  font-size:19px; font-weight:700;
+  margin:0 0 12px;
+  letter-spacing:.01em;
+}
+.discover-card p{
+  font-size:13.5px;
+  line-height:1.85;
+  color:#5a6078;
+  margin-bottom:24px;
+  transition:color .35s var(--ease);
+}
+.discover-card:hover p{color:rgba(255,255,255,.75)}
+.dc-arrow{
+  position:absolute;
+  right:32px; bottom:32px;
+  font-family:"Inter",sans-serif;
+  font-size:18px;
+  transition:transform .35s var(--ease);
+}
+.discover-card:hover .dc-arrow{transform:translateX(6px)}
+@media(max-width:900px){.discover-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.discover-grid{grid-template-columns:1fr}}
+
+/* Inline CTA used at the bottom of dedicated pages */
+section.cta.reveal{
+  padding:120px 24px !important;
+  background:#0a0f2e !important;
+  color:#fff !important;
+  text-align:center;
+}
+section.cta.reveal h2{
+  font-family:"Cormorant Garamond","Noto Serif JP",serif !important;
+  font-style:italic !important;
+  font-weight:500 !important;
+  font-size:clamp(30px,4vw,52px) !important;
+  letter-spacing:-.01em !important;
+  line-height:1.3 !important;
+  margin-bottom:32px;
+}
+section.cta.reveal em.serif-italic{
+  color:#aab6ff !important;
+  background:none !important;
+  -webkit-text-fill-color:initial !important;
+}
+section.cta.reveal .btn-primary{
+  background:#fff !important;
+  color:#0a0f2e !important;
+  border:1px solid #fff !important;
+}
+section.cta.reveal .btn-primary:hover{
+  background:transparent !important;
+  color:#fff !important;
+}
