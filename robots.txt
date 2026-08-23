@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /admin.html
 
-Sitemap: https://shomayamamoto-ai.github.io/lumenium-app/sitemap.xml
+Sitemap: https://shomayamamoto-ai.github.io/advovisions/sitemap.xml
