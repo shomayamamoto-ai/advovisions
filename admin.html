@@ -1,0 +1,418 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>管理者ページ — AdvoVisions CMS</title>
+<link rel="icon" type="image/png" href="assets/img/logo-original.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#2437c8;--navy:#0a0f2e;--ink:#0f1430;--dim:#5a6078;--line:#e4e8f4;--bg:#f6f8ff;--ok:#0d9455;--err:#d43c3c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Inter","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.7}
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 80px}
+header.bar{background:var(--navy);color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+header.bar .t{font-weight:700;letter-spacing:.08em}
+header.bar .t small{opacity:.6;font-weight:400;margin-left:10px;font-size:11px}
+header.bar a{color:rgba(255,255,255,.7);text-decoration:none;font-size:12px}
+header.bar a:hover{color:#fff}
+.tabs{display:flex;gap:4px;margin:24px 0 0;border-bottom:2px solid var(--line)}
+.tab{padding:12px 22px;background:none;border:0;font:inherit;font-weight:600;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab.active{color:var(--brand);border-bottom-color:var(--brand)}
+.panel{display:none;padding:28px 0}
+.panel.active{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:24px;margin-bottom:20px}
+.card h3{font-size:15px;margin-bottom:14px;letter-spacing:.02em}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--dim);margin:14px 0 5px;text-transform:uppercase}
+input[type=text],input[type=password],input[type=number],input[type=date],textarea,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:4px;font:inherit;background:#fff;color:var(--ink)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(36,55,200,.1)}
+textarea{min-height:110px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 20px}
+@media(max-width:640px){.row,.row3{grid-template-columns:1fr}}
+.btn{display:inline-block;padding:11px 22px;border-radius:4px;border:1px solid var(--brand);background:var(--brand);color:#fff;font:inherit;font-weight:700;letter-spacing:.06em;cursor:pointer;transition:.2s}
+.btn:hover{background:#1a2aa0}
+.btn.ghost{background:#fff;color:var(--brand)}
+.btn.ghost:hover{background:var(--bg)}
+.btn.danger{background:#fff;border-color:var(--err);color:var(--err)}
+.btn.small{padding:6px 14px;font-size:12px;font-weight:600}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.list{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+.list-item{display:grid;grid-template-columns:90px 1fr auto;gap:16px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);font-size:13px}
+.list-item:last-child{border-bottom:0}
+.list-item .d{color:var(--dim);font-size:12px}
+.list-item .t{font-weight:600}
+.badge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;padding:3px 8px;border-radius:3px;background:rgba(36,55,200,.08);color:var(--brand);margin-right:8px}
+.badge.custom{background:rgba(13,148,85,.1);color:var(--ok)}
+.badge.hidden-b{background:rgba(212,60,60,.08);color:var(--err)}
+.log{background:var(--navy);color:#9fe8c1;font-family:ui-monospace,monospace;font-size:12px;padding:16px;border-radius:6px;min-height:80px;max-height:220px;overflow:auto;white-space:pre-wrap;margin-top:16px}
+.note{font-size:12px;color:var(--dim);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:12px 14px;margin:10px 0;line-height:1.8}
+.actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.search-row{display:flex;gap:10px;margin-bottom:14px}
+.search-row input{flex:1}
+.pill-status{font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px}
+.pill-status.ok{background:rgba(13,148,85,.12);color:var(--ok)}
+.pill-status.no{background:rgba(212,60,60,.1);color:var(--err)}
+h2.sec{font-size:13px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;margin:26px 0 12px}
+</style></head><body>
+<header class="bar">
+  <div class="t">ADVOVISIONS <small>ADMIN CMS</small></div>
+  <a href="index.html">← サイトへ戻る</a>
+</header>
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab active" data-p="news">ニュース管理</button>
+    <button class="tab" data-p="talent">タレント管理</button>
+    <button class="tab" data-p="publish">公開設定</button>
+  </div>
+
+  <!-- ============ NEWS ============ -->
+  <div class="panel active" id="panel-news">
+    <div class="card">
+      <h3 id="news-form-title">ニュースを追加</h3>
+      <input type="hidden" id="nf-id">
+      <div class="row">
+        <div><label>日付（YYYY.MM.DD）</label><input type="text" id="nf-date" placeholder="2026.06.13"></div>
+        <div><label>カテゴリ</label><select id="nf-cat">
+          <option value="APPEARANCE">作品情報</option>
+          <option value="PROJECT">プロジェクト</option>
+          <option value="EVENT">イベント</option>
+          <option value="COMPANY">会社情報</option>
+          <option value="AUDITION">オーディション</option>
+        </select></div>
+      </div>
+      <label>タイトル</label><input type="text" id="nf-title" placeholder="お知らせのタイトル">
+      <label>本文</label><textarea id="nf-body" placeholder="本文。空行で段落を分けられます。"></textarea>
+      <label>サムネイル画像URL（任意）</label><input type="text" id="nf-thumb" placeholder="https://... （空欄で標準画像）">
+      <div class="actions">
+        <button class="btn" id="nf-save">保存する</button>
+        <button class="btn ghost" id="nf-clear">クリア</button>
+      </div>
+    </div>
+    <h2 class="sec">ニュース一覧（クリックで編集）</h2>
+    <div class="list" id="news-list"></div>
+  </div>
+
+  <!-- ============ TALENT ============ -->
+  <div class="panel" id="panel-talent">
+    <div class="card">
+      <div class="search-row">
+        <input type="text" id="tf-search" placeholder="IDまたは名前で検索（例: 001）">
+        <button class="btn small ghost" id="tf-new">＋ 新規タレント</button>
+      </div>
+      <h3 id="tf-form-title">タレントを選択してください</h3>
+      <input type="hidden" id="tf-id">
+      <div class="row3">
+        <div><label>名前</label><input type="text" id="tf-name"></div>
+        <div><label>名前（カナ/EN）</label><input type="text" id="tf-kana"></div>
+        <div><label>部門</label><select id="tf-dept">
+          <option>男性アクター</option><option>女性アクター</option>
+          <option>男性モデル</option><option>女性モデル</option>
+          <option>男性歌手</option><option>女性歌手</option>
+          <option>男性声優</option><option>女性声優</option>
+        </select></div>
+      </div>
+      <div class="row3">
+        <div><label>役職・肩書</label><input type="text" id="tf-role"></div>
+        <div><label>身長（cm）</label><input type="number" id="tf-height"></div>
+        <div><label>入所年</label><input type="number" id="tf-joined"></div>
+      </div>
+      <label>プロフィール文</label><textarea id="tf-bio"></textarea>
+      <div class="row">
+        <div><label>スキル（カンマ区切り）</label><input type="text" id="tf-skills" placeholder="演技, ダンス, 英会話"></div>
+        <div><label>出身地</label><input type="text" id="tf-city"></div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="tf-save" disabled>保存する</button>
+        <button class="btn danger small" id="tf-hide" disabled>このタレントを非表示</button>
+      </div>
+    </div>
+    <h2 class="sec">変更のあるタレント</h2>
+    <div class="list" id="talent-list"><div class="list-item"><span></span><span class="d">まだ変更はありません</span><span></span></div></div>
+  </div>
+
+  <!-- ============ PUBLISH ============ -->
+  <div class="panel" id="panel-publish">
+    <div class="card">
+      <h3>GitHub 連携設定 <span class="pill-status no" id="tok-status">未設定</span></h3>
+      <div class="note">
+        公開には GitHub の <strong>Fine-grained Personal Access Token</strong> が必要です。<br>
+        GitHub → Settings → Developer settings → Fine-grained tokens → Generate new token<br>
+        対象リポジトリ: <strong>shomayamamoto-ai/advovisions</strong> のみ／権限: <strong>Contents: Read and write</strong> のみ。<br>
+        トークンはこのブラウザの localStorage にのみ保存され、外部には送信されません（GitHub API 直接通信）。
+      </div>
+      <label>Personal Access Token</label>
+      <input type="password" id="gh-token" placeholder="github_pat_...">
+      <div class="actions">
+        <button class="btn ghost" id="tok-save">トークンを保存</button>
+        <button class="btn danger small" id="tok-del">削除</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>変更を公開する</h3>
+      <p style="font-size:13px;color:var(--dim);margin-bottom:6px">
+        下書き（このブラウザに保存済み）を GitHub にコミットします。反映まで1〜3分かかります。
+      </p>
+      <div class="actions">
+        <button class="btn" id="pub-go">🚀 変更を公開する</button>
+        <button class="btn ghost" id="pub-dl">JSONをダウンロード（手動反映用）</button>
+        <button class="btn danger" id="pub-discard">下書きをすべて破棄</button>
+      </div>
+      <div class="log" id="pub-log">ログはここに表示されます。</div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/news-data.js"></script>
+<script src="assets/js/members-data.js"></script>
+<script>
+(function(){
+"use strict";
+var OWNER="shomayamamoto-ai", REPO="advovisions", BRANCH="main";
+var CATLBL={APPEARANCE:"作品情報",PROJECT:"プロジェクト",EVENT:"イベント",COMPANY:"会社情報",AUDITION:"オーディション"};
+var $=function(id){return document.getElementById(id)};
+
+/* ---------- state ---------- */
+function loadDraft(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function saveDraft(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var newsDraft=loadDraft("av_admin_news",{version:1,items:[],hidden:[]});
+var memDraft=loadDraft("av_admin_members",{version:1,overrides:{},added:[],hidden:[]});
+
+/* Also merge the currently-published overlay so editing starts from live state */
+function fetchJSON(u,cb){fetch(u+"?t="+Date.now()).then(function(r){return r.ok?r.json():null}).then(cb).catch(function(){cb(null)})}
+fetchJSON("assets/data/news-custom.json",function(pub){
+  if(pub&&(!localStorage.getItem("av_admin_news"))){newsDraft=pub;saveDraft("av_admin_news",newsDraft)}
+  renderNewsList();
+});
+fetchJSON("assets/data/members-custom.json",function(pub){
+  if(pub&&(!localStorage.getItem("av_admin_members"))){memDraft=pub;saveDraft("av_admin_members",memDraft)}
+  renderTalentList();
+});
+
+/* ---------- tabs ---------- */
+document.querySelectorAll(".tab").forEach(function(t){
+  t.addEventListener("click",function(){
+    document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("active")});
+    document.querySelectorAll(".panel").forEach(function(x){x.classList.remove("active")});
+    t.classList.add("active");
+    $("panel-"+t.getAttribute("data-p")).classList.add("active");
+  });
+});
+
+/* ---------- merged news view ---------- */
+function mergedNews(){
+  var map={};(window.ADVO_NEWS||[]).forEach(function(x){map[x.id]={item:x,src:"static"}});
+  (newsDraft.items||[]).forEach(function(x){map[x.id]={item:x,src:"custom"}});
+  var hid={};(newsDraft.hidden||[]).forEach(function(i){hid[i]=1});
+  var arr=Object.keys(map).map(function(k){return{item:map[k].item,src:map[k].src,hidden:!!hid[k]}});
+  arr.sort(function(a,b){return String(b.item.date).localeCompare(String(a.item.date))});
+  return arr;
+}
+function renderNewsList(){
+  var host=$("news-list");
+  host.innerHTML=mergedNews().map(function(x){
+    var b=x.src==="custom"?'<span class="badge custom">編集済</span>':'<span class="badge">標準</span>';
+    if(x.hidden)b+='<span class="badge hidden-b">非表示</span>';
+    return '<div class="list-item" data-id="'+x.item.id+'"><span class="d">'+x.item.date+'</span>'+
+      '<span class="t">'+b+x.item.title+'</span>'+
+      '<span><button class="btn small ghost act-edit">編集</button> '+
+      (x.hidden?'<button class="btn small ghost act-show">表示</button>':'<button class="btn small danger act-hide">非表示</button>')+'</span></div>';
+  }).join("");
+  host.querySelectorAll(".act-edit").forEach(function(b){b.addEventListener("click",function(e){editNews(e.target.closest(".list-item").getAttribute("data-id"))})});
+  host.querySelectorAll(".act-hide").forEach(function(b){b.addEventListener("click",function(e){toggleNewsHide(e.target.closest(".list-item").getAttribute("data-id"),true)})});
+  host.querySelectorAll(".act-show").forEach(function(b){b.addEventListener("click",function(e){toggleNewsHide(e.target.closest(".list-item").getAttribute("data-id"),false)})});
+}
+function toggleNewsHide(id,hide){
+  newsDraft.hidden=newsDraft.hidden||[];
+  var i=newsDraft.hidden.indexOf(id);
+  if(hide&&i<0)newsDraft.hidden.push(id);
+  if(!hide&&i>=0)newsDraft.hidden.splice(i,1);
+  saveDraft("av_admin_news",newsDraft);renderNewsList();
+}
+function editNews(id){
+  var found=mergedNews().filter(function(x){return x.item.id===id})[0];
+  if(!found)return;
+  var n=found.item;
+  $("nf-id").value=n.id;$("nf-date").value=n.date;$("nf-cat").value=n.cat||"APPEARANCE";
+  $("nf-title").value=n.title;$("nf-body").value=(n.body||"").replace(/\\n/g,"\n");$("nf-thumb").value=n.thumb||"";
+  $("news-form-title").textContent="ニュースを編集 — "+n.id;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("nf-save").addEventListener("click",function(){
+  var id=$("nf-id").value.trim();
+  if(!id){
+    var maxN=0;
+    mergedNews().forEach(function(x){var m=/^n(\d+)$/.exec(x.item.id);if(m)maxN=Math.max(maxN,parseInt(m[1],10))});
+    id="n"+String(maxN+1).padStart(3,"0");
+  }
+  var cat=$("nf-cat").value;
+  var item={id:id,cat:cat,catLabel:CATLBL[cat]||cat,date:$("nf-date").value.trim()||new Date().toISOString().slice(0,10).replace(/-/g,"."),
+    title:$("nf-title").value.trim(),body:$("nf-body").value,
+    thumb:$("nf-thumb").value.trim()||"https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80&auto=format&fit=crop"};
+  if(!item.title){alert("タイトルを入力してください");return}
+  newsDraft.items=(newsDraft.items||[]).filter(function(x){return x.id!==id});
+  newsDraft.items.push(item);
+  saveDraft("av_admin_news",newsDraft);
+  clearNewsForm();renderNewsList();
+});
+function clearNewsForm(){["nf-id","nf-date","nf-title","nf-body","nf-thumb"].forEach(function(i){$(i).value=""});$("news-form-title").textContent="ニュースを追加"}
+$("nf-clear").addEventListener("click",clearNewsForm);
+
+/* ---------- talent ---------- */
+function findMember(q){
+  q=q.trim().toLowerCase();
+  var all=(window.ADVO_MEMBERS||[]).concat(memDraft.added||[]);
+  return all.filter(function(m){return m.id===q||String(m.id).toLowerCase().indexOf(q)>=0||String(m.name).toLowerCase().indexOf(q)>=0})[0];
+}
+function loadTalentForm(m,ov){
+  var v=function(k,d){return (ov&&ov[k]!==undefined)?ov[k]:(m[k]!==undefined?m[k]:d)};
+  $("tf-id").value=m.id;
+  $("tf-name").value=v("name","");$("tf-kana").value=v("nameKana","");
+  $("tf-dept").value=v("dept","男性アクター");$("tf-role").value=v("role","");
+  $("tf-height").value=v("height","");$("tf-joined").value=v("joined","");
+  $("tf-bio").value=v("bio","");$("tf-skills").value=(v("expertise",[])||[]).join(", ");
+  $("tf-city").value=v("birthCity","");
+  $("tf-form-title").textContent="ADV-"+m.id+" を編集中";
+  $("tf-save").disabled=false;$("tf-hide").disabled=false;
+}
+$("tf-search").addEventListener("change",function(){
+  var m=findMember(this.value);
+  if(!m){alert("見つかりませんでした");return}
+  loadTalentForm(m,(memDraft.overrides||{})[m.id]);
+});
+$("tf-new").addEventListener("click",function(){
+  var maxId=0;
+  (window.ADVO_MEMBERS||[]).concat(memDraft.added||[]).forEach(function(m){maxId=Math.max(maxId,parseInt(m.id,10)||0)});
+  var id=String(maxId+1).padStart(3,"0");
+  var dept=$("tf-dept").value||"男性アクター";
+  var g=dept.indexOf("女性")===0?"F":"M";
+  var neu={id:id,name:"",nameKana:"",role:"",dept:dept,gender:g,bio:"",expertise:[],birthCity:"",blood:"A",
+    height:170,weight:60,shoe:26,joined:new Date().getFullYear(),filmography:[],news:[],
+    portrait:"assets/img/silhouette.svg?v=74&i="+id,fallback:"assets/img/silhouette.svg?v=74&i="+id+"f",
+    sns:{instagram:"#",x:"#",tiktok:"#",youtube:"#"},
+    gallery:[0,1,2,3,4,5].map(function(gi){return "assets/img/silhouette.svg?v=74&g="+gi}),
+    manager:"",languages:["日本語(N)"]};
+  memDraft.added=memDraft.added||[];memDraft.added.push(neu);
+  saveDraft("av_admin_members",memDraft);
+  loadTalentForm(neu,null);
+  $("tf-form-title").textContent="新規タレント ADV-"+id+"（未保存）";
+  renderTalentList();
+});
+$("tf-save").addEventListener("click",function(){
+  var id=$("tf-id").value;if(!id)return;
+  var dept=$("tf-dept").value;
+  var patch={name:$("tf-name").value.trim(),nameKana:$("tf-kana").value.trim(),dept:dept,
+    gender:dept.indexOf("女性")===0?"F":"M",role:$("tf-role").value.trim(),
+    height:parseInt($("tf-height").value,10)||undefined,joined:parseInt($("tf-joined").value,10)||undefined,
+    bio:$("tf-bio").value,expertise:$("tf-skills").value.split(",").map(function(s){return s.trim()}).filter(Boolean),
+    birthCity:$("tf-city").value.trim()};
+  Object.keys(patch).forEach(function(k){if(patch[k]===undefined||patch[k]==="")delete patch[k]});
+  var addedIdx=(memDraft.added||[]).findIndex(function(m){return m.id===id});
+  if(addedIdx>=0){
+    Object.keys(patch).forEach(function(k){memDraft.added[addedIdx][k]=patch[k]});
+  }else{
+    memDraft.overrides=memDraft.overrides||{};
+    memDraft.overrides[id]=Object.assign({},memDraft.overrides[id]||{},patch);
+  }
+  saveDraft("av_admin_members",memDraft);
+  renderTalentList();
+  alert("保存しました（下書き）。公開設定タブから公開してください。");
+});
+$("tf-hide").addEventListener("click",function(){
+  var id=$("tf-id").value;if(!id)return;
+  memDraft.hidden=memDraft.hidden||[];
+  if(memDraft.hidden.indexOf(id)<0)memDraft.hidden.push(id);
+  saveDraft("av_admin_members",memDraft);renderTalentList();
+  alert("ADV-"+id+" を非表示リストに追加しました。");
+});
+function renderTalentList(){
+  var host=$("talent-list");
+  var rows=[];
+  Object.keys(memDraft.overrides||{}).forEach(function(id){
+    rows.push('<div class="list-item" data-id="'+id+'"><span class="d">ADV-'+id+'</span><span class="t"><span class="badge custom">上書き</span>'+(memDraft.overrides[id].name||"(名称未変更)")+'</span><span><button class="btn small ghost t-edit">編集</button></span></div>');
+  });
+  (memDraft.added||[]).forEach(function(m){
+    rows.push('<div class="list-item" data-id="'+m.id+'"><span class="d">ADV-'+m.id+'</span><span class="t"><span class="badge custom">新規</span>'+(m.name||"(未入力)")+'</span><span><button class="btn small ghost t-edit">編集</button></span></div>');
+  });
+  (memDraft.hidden||[]).forEach(function(id){
+    rows.push('<div class="list-item" data-id="'+id+'"><span class="d">ADV-'+id+'</span><span class="t"><span class="badge hidden-b">非表示</span></span><span><button class="btn small ghost t-unhide">戻す</button></span></div>');
+  });
+  host.innerHTML=rows.length?rows.join(""):'<div class="list-item"><span></span><span class="d">まだ変更はありません</span><span></span></div>';
+  host.querySelectorAll(".t-edit").forEach(function(b){b.addEventListener("click",function(e){
+    var id=e.target.closest(".list-item").getAttribute("data-id");
+    var m=findMember(id);if(m)loadTalentForm(m,(memDraft.overrides||{})[id]);
+    window.scrollTo({top:0,behavior:"smooth"});
+  })});
+  host.querySelectorAll(".t-unhide").forEach(function(b){b.addEventListener("click",function(e){
+    var id=e.target.closest(".list-item").getAttribute("data-id");
+    memDraft.hidden=(memDraft.hidden||[]).filter(function(x){return x!==id});
+    saveDraft("av_admin_members",memDraft);renderTalentList();
+  })});
+}
+
+/* ---------- publish ---------- */
+function log(s){var l=$("pub-log");l.textContent+=(l.textContent?"\n":"")+s;l.scrollTop=l.scrollHeight}
+function getToken(){return localStorage.getItem("av_admin_token")||""}
+function refreshTok(){
+  var has=!!getToken();
+  var el=$("tok-status");
+  el.textContent=has?"設定済":"未設定";
+  el.className="pill-status "+(has?"ok":"no");
+}
+refreshTok();
+$("tok-save").addEventListener("click",function(){
+  var v=$("gh-token").value.trim();
+  if(!v){alert("トークンを入力してください");return}
+  localStorage.setItem("av_admin_token",v);$("gh-token").value="";refreshTok();
+  log("トークンを保存しました。");
+});
+$("tok-del").addEventListener("click",function(){localStorage.removeItem("av_admin_token");refreshTok();log("トークンを削除しました。")});
+
+function b64(s){return btoa(unescape(encodeURIComponent(s)))}
+function ghPut(path,obj,msg){
+  var tok=getToken();
+  var api="https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+path;
+  var headers={Authorization:"Bearer "+tok,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
+  return fetch(api+"?ref="+BRANCH,{headers:headers}).then(function(r){
+    if(r.status===404)return{sha:null};
+    if(!r.ok)throw new Error("GET "+path+" -> "+r.status);
+    return r.json();
+  }).then(function(cur){
+    var body={message:msg,branch:BRANCH,content:b64(JSON.stringify(obj,null,1))};
+    if(cur.sha)body.sha=cur.sha;
+    return fetch(api,{method:"PUT",headers:headers,body:JSON.stringify(body)});
+  }).then(function(r){
+    if(!r.ok)return r.json().then(function(j){throw new Error("PUT "+path+" -> "+r.status+" "+(j.message||""))});
+    return r.json();
+  });
+}
+$("pub-go").addEventListener("click",function(){
+  if(!getToken()){alert("先にトークンを設定してください");return}
+  var btn=$("pub-go");btn.disabled=true;
+  log("=== 公開開始 ===");
+  ghPut("assets/data/news-custom.json",newsDraft,"content: update news via admin CMS")
+  .then(function(){log("✓ ニュースを公開しました")})
+  .then(function(){return ghPut("assets/data/members-custom.json",memDraft,"content: update talents via admin CMS")})
+  .then(function(){log("✓ タレント情報を公開しました");log("GitHub Pages のビルド完了後（1〜3分）にサイトへ反映されます。")})
+  .catch(function(e){log("✗ エラー: "+e.message);log("トークンの権限（Contents: Read and write）と対象リポジトリを確認してください。")})
+  .finally(function(){btn.disabled=false});
+});
+$("pub-dl").addEventListener("click",function(){
+  [["news-custom.json",newsDraft],["members-custom.json",memDraft]].forEach(function(pair){
+    var blob=new Blob([JSON.stringify(pair[1],null,1)],{type:"application/json"});
+    var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=pair[0];a.click();
+  });
+  log("JSONをダウンロードしました。assets/data/ に配置してコミットしてください。");
+});
+$("pub-discard").addEventListener("click",function(){
+  if(!confirm("下書きをすべて破棄しますか？（公開済みの内容には影響しません）"))return;
+  localStorage.removeItem("av_admin_news");localStorage.removeItem("av_admin_members");
+  newsDraft={version:1,items:[],hidden:[]};memDraft={version:1,overrides:{},added:[],hidden:[]};
+  renderNewsList();renderTalentList();log("下書きを破棄しました。");
+});
+
+renderNewsList();renderTalentList();
+})();
+</script>
+</body></html>
