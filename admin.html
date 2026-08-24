@@ -55,6 +55,14 @@ textarea{min-height:110px;resize:vertical}
 .pill-status.ok{background:rgba(13,148,85,.12);color:var(--ok)}
 .pill-status.no{background:rgba(212,60,60,.1);color:var(--err)}
 h2.sec{font-size:13px;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;margin:26px 0 12px}
+.photo-box{width:140px;height:175px;border:1px dashed var(--line);border-radius:4px;overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:var(--dim);font-size:11px}
+.photo-box img{width:100%;height:100%;object-fit:cover;display:none}
+input[type=file]{font-size:12px}
+.gal-grid{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;min-height:20px}
+.gal-item{position:relative;width:64px;height:80px;border-radius:3px;overflow:hidden;border:1px solid var(--line)}
+.gal-item img{width:100%;height:100%;object-fit:cover}
+.gal-del{position:absolute;top:2px;right:2px;background:rgba(15,20,48,.78);color:#fff;border:0;border-radius:3px;width:18px;height:18px;line-height:1;cursor:pointer;font-size:11px;padding:0}
+
 </style></head><body>
 <header class="bar">
   <div class="t">ADVOVISIONS <small>ADMIN CMS</small></div>
@@ -122,6 +130,27 @@ h2.sec{font-size:13px;letter-spacing:.2em;color:var(--dim);text-transform:upperc
       <div class="row">
         <div><label>スキル（カンマ区切り）</label><input type="text" id="tf-skills" placeholder="演技, ダンス, 英会話"></div>
         <div><label>出身地</label><input type="text" id="tf-city"></div>
+      </div>
+      <h2 class="sec" style="margin-top:24px">写真・SNSリンク</h2>
+      <div class="row">
+        <div>
+          <label>宣材写真（ポートレート）</label>
+          <div class="photo-box" id="tf-portrait-box"><img id="tf-portrait-prev" alt="">写真なし</div>
+          <input type="file" id="tf-portrait-file" accept="image/*">
+        </div>
+        <div>
+          <label>ポートフォリオ写真（最大6枚・複数選択可）</label>
+          <div class="gal-grid" id="tf-gallery-prev"></div>
+          <input type="file" id="tf-gallery-files" accept="image/*" multiple>
+        </div>
+      </div>
+      <div class="row">
+        <div><label>Instagram URL</label><input type="text" id="tf-sns-ig" placeholder="https://instagram.com/..."></div>
+        <div><label>X（Twitter）URL</label><input type="text" id="tf-sns-x" placeholder="https://x.com/..."></div>
+      </div>
+      <div class="row">
+        <div><label>TikTok URL</label><input type="text" id="tf-sns-tt" placeholder="https://tiktok.com/@..."></div>
+        <div><label>YouTube URL</label><input type="text" id="tf-sns-yt" placeholder="https://youtube.com/@..."></div>
       </div>
       <div class="actions">
         <button class="btn" id="tf-save" disabled>保存する</button>
@@ -265,6 +294,46 @@ function findMember(q){
   var all=(window.ADVO_MEMBERS||[]).concat(memDraft.added||[]);
   return all.filter(function(m){return m.id===q||String(m.id).toLowerCase().indexOf(q)>=0||String(m.name).toLowerCase().indexOf(q)>=0})[0];
 }
+var pendingPortrait=null,pendingGallery=[];
+function fileToDataUrl(file,maxW){
+  return new Promise(function(res,rej){
+    var fr=new FileReader();
+    fr.onload=function(){
+      var img=new Image();
+      img.onload=function(){
+        var scale=Math.min(1,maxW/img.width);
+        var cw=Math.round(img.width*scale),ch=Math.round(img.height*scale);
+        var c=document.createElement("canvas");c.width=cw;c.height=ch;
+        c.getContext("2d").drawImage(img,0,0,cw,ch);
+        res(c.toDataURL("image/jpeg",0.82));
+      };
+      img.onerror=rej;img.src=fr.result;
+    };
+    fr.onerror=rej;fr.readAsDataURL(file);
+  });
+}
+function showPortraitPrev(src){
+  var im=$("tf-portrait-prev");
+  if(src){im.src=src;im.style.display="block"}
+  else{im.removeAttribute("src");im.style.display="none"}
+}
+function renderGalleryPrev(){
+  var host=$("tf-gallery-prev");
+  host.innerHTML=pendingGallery.map(function(d,i){
+    return '<div class="gal-item"><img src="'+d+'"><button type="button" class="gal-del" data-i="'+i+'">×</button></div>';
+  }).join("");
+  host.querySelectorAll(".gal-del").forEach(function(b){
+    b.addEventListener("click",function(){pendingGallery.splice(parseInt(b.getAttribute("data-i"),10),1);renderGalleryPrev()});
+  });
+}
+$("tf-portrait-file").addEventListener("change",function(e){
+  var f=e.target.files[0];if(!f)return;
+  fileToDataUrl(f,900).then(function(d){pendingPortrait=d;showPortraitPrev(d)});
+});
+$("tf-gallery-files").addEventListener("change",function(e){
+  var fs=Array.prototype.slice.call(e.target.files,0,6);
+  Promise.all(fs.map(function(f){return fileToDataUrl(f,900)})).then(function(ds){pendingGallery=ds;renderGalleryPrev()});
+});
 function loadTalentForm(m,ov){
   var v=function(k,d){return (ov&&ov[k]!==undefined)?ov[k]:(m[k]!==undefined?m[k]:d)};
   $("tf-id").value=m.id;
@@ -273,6 +342,14 @@ function loadTalentForm(m,ov){
   $("tf-height").value=v("height","");$("tf-joined").value=v("joined","");
   $("tf-bio").value=v("bio","");$("tf-skills").value=(v("expertise",[])||[]).join(", ");
   $("tf-city").value=v("birthCity","");
+  pendingPortrait=null;pendingGallery=[];renderGalleryPrev();
+  $("tf-portrait-file").value="";$("tf-gallery-files").value="";
+  var sns=v("sns",{})||{};
+  var cl=function(u){return (u&&u!=="#")?u:""};
+  $("tf-sns-ig").value=cl(sns.instagram);$("tf-sns-x").value=cl(sns.x);
+  $("tf-sns-tt").value=cl(sns.tiktok);$("tf-sns-yt").value=cl(sns.youtube);
+  var por=v("portrait","");
+  showPortraitPrev(por&&por.indexOf("silhouette")<0?por:null);
   $("tf-form-title").textContent="ADV-"+m.id+" を編集中";
   $("tf-save").disabled=false;$("tf-hide").disabled=false;
 }
@@ -307,6 +384,22 @@ $("tf-save").addEventListener("click",function(){
     height:parseInt($("tf-height").value,10)||undefined,joined:parseInt($("tf-joined").value,10)||undefined,
     bio:$("tf-bio").value,expertise:$("tf-skills").value.split(",").map(function(s){return s.trim()}).filter(Boolean),
     birthCity:$("tf-city").value.trim()};
+  var snsIn={instagram:$("tf-sns-ig").value.trim(),x:$("tf-sns-x").value.trim(),tiktok:$("tf-sns-tt").value.trim(),youtube:$("tf-sns-yt").value.trim()};
+  if(snsIn.instagram||snsIn.x||snsIn.tiktok||snsIn.youtube)patch.sns=snsIn;
+  memDraft.uploads=memDraft.uploads||{};
+  if(pendingPortrait){
+    var ppath="assets/img/uploads/"+id+"/portrait.jpg";
+    memDraft.uploads[ppath]=pendingPortrait;
+    patch.portrait=ppath+"?u="+Date.now();patch.fallback=patch.portrait;
+  }
+  if(pendingGallery.length){
+    var gal=[];
+    pendingGallery.forEach(function(d,i){
+      var gpath="assets/img/uploads/"+id+"/gallery-"+(i+1)+".jpg";
+      memDraft.uploads[gpath]=d;gal.push(gpath+"?u="+Date.now());
+    });
+    patch.gallery=gal;
+  }
   Object.keys(patch).forEach(function(k){if(patch[k]===undefined||patch[k]==="")delete patch[k]});
   var addedIdx=(memDraft.added||[]).findIndex(function(m){return m.id===id});
   if(addedIdx>=0){
@@ -317,6 +410,7 @@ $("tf-save").addEventListener("click",function(){
   }
   saveDraft("av_admin_members",memDraft);
   renderTalentList();
+  pendingPortrait=null;pendingGallery=[];renderGalleryPrev();$("tf-portrait-file").value="";$("tf-gallery-files").value="";
   alert("保存しました（下書き）。公開設定タブから公開してください。");
 });
 $("tf-hide").addEventListener("click",function(){
@@ -370,7 +464,7 @@ $("tok-save").addEventListener("click",function(){
 $("tok-del").addEventListener("click",function(){localStorage.removeItem("av_admin_token");refreshTok();log("トークンを削除しました。")});
 
 function b64(s){return btoa(unescape(encodeURIComponent(s)))}
-function ghPut(path,obj,msg){
+function ghPutB64(path,b64content,msg){
   var tok=getToken();
   var api="https://api.github.com/repos/"+OWNER+"/"+REPO+"/contents/"+path;
   var headers={Authorization:"Bearer "+tok,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"};
@@ -379,12 +473,28 @@ function ghPut(path,obj,msg){
     if(!r.ok)throw new Error("GET "+path+" -> "+r.status);
     return r.json();
   }).then(function(cur){
-    var body={message:msg,branch:BRANCH,content:b64(JSON.stringify(obj,null,1))};
+    var body={message:msg,branch:BRANCH,content:b64content};
     if(cur.sha)body.sha=cur.sha;
     return fetch(api,{method:"PUT",headers:headers,body:JSON.stringify(body)});
   }).then(function(r){
     if(!r.ok)return r.json().then(function(j){throw new Error("PUT "+path+" -> "+r.status+" "+(j.message||""))});
     return r.json();
+  });
+}
+function ghPut(path,obj,msg){return ghPutB64(path,b64(JSON.stringify(obj,null,1)),msg)}
+function publishUploads(){
+  var ups=memDraft.uploads||{};
+  var paths=Object.keys(ups);
+  if(!paths.length)return Promise.resolve();
+  return paths.reduce(function(chain,path){
+    return chain.then(function(){
+      log("画像アップロード: "+path);
+      var raw=ups[path].split(",")[1];
+      return ghPutB64(path,raw,"content: upload photo via admin CMS");
+    });
+  },Promise.resolve()).then(function(){
+    memDraft.uploads={};
+    saveDraft("av_admin_members",memDraft);
   });
 }
 $("pub-go").addEventListener("click",function(){
@@ -393,7 +503,11 @@ $("pub-go").addEventListener("click",function(){
   log("=== 公開開始 ===");
   ghPut("assets/data/news-custom.json",newsDraft,"content: update news via admin CMS")
   .then(function(){log("✓ ニュースを公開しました")})
-  .then(function(){return ghPut("assets/data/members-custom.json",memDraft,"content: update talents via admin CMS")})
+  .then(function(){return publishUploads()})
+  .then(function(){
+    var pubMem={version:memDraft.version||1,overrides:memDraft.overrides||{},added:memDraft.added||[],hidden:memDraft.hidden||[]};
+    return ghPut("assets/data/members-custom.json",pubMem,"content: update talents via admin CMS");
+  })
   .then(function(){log("✓ タレント情報を公開しました");log("GitHub Pages のビルド完了後（1〜3分）にサイトへ反映されます。")})
   .catch(function(e){log("✗ エラー: "+e.message);log("トークンの権限（Contents: Read and write）と対象リポジトリを確認してください。")})
   .finally(function(){btn.disabled=false});
